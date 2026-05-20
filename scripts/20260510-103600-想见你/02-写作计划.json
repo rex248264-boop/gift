@@ -1,0 +1,243 @@
+{
+  "version": 2,
+  "scriptName": "想见你",
+  "projectPath": "./interactive-script/20260510-103600-想见你",
+  "totalScenes": 14,
+  "totalEndings": 1,
+  "branchDensity": "light",
+  "minWordsPerScene": 3000,
+  "createdAt": "2026-05-10T10:36:00+08:00",
+  "updatedAt": "2026-05-10T17:13:00+08:00",
+  "status": "planning",
+  "writingMode": null,
+  "scenes": [
+    {
+      "sceneId": "S01",
+      "title": "序章·吹灭第一根蜡烛",
+      "filePath": "S01-序章·吹灭第一根蜡烛.md",
+      "upstream": [],
+      "outgoing": [
+        { "type": "jump", "label": "世界扭曲重组进入第一时空", "target": "S02" }
+      ],
+      "isEnding": false,
+      "endingId": null,
+      "status": "pending",
+      "wordCount": null,
+      "wordCountPass": null,
+      "branchValid": null,
+      "retryCount": 0
+    },
+    {
+      "sceneId": "S02",
+      "title": "赛博·霓虹初见",
+      "filePath": "S02-赛博·霓虹初见.md",
+      "upstream": ["S01"],
+      "outgoing": [
+        { "type": "jump", "label": "你们走向同一辆改装机车", "target": "S03" }
+      ],
+      "isEnding": false,
+      "endingId": null,
+      "status": "pending",
+      "wordCount": null,
+      "wordCountPass": null,
+      "branchValid": null,
+      "retryCount": 0
+    },
+    {
+      "sceneId": "S03",
+      "title": "赛博·去月球",
+      "filePath": "S03-赛博·去月球.md",
+      "upstream": ["S02"],
+      "outgoing": [
+        { "type": "jump", "label": "意识共享舱后异响首次出现", "target": "S04" }
+      ],
+      "isEnding": false,
+      "endingId": null,
+      "status": "pending",
+      "wordCount": null,
+      "wordCountPass": null,
+      "branchValid": null,
+      "retryCount": 0
+    },
+    {
+      "sceneId": "S04",
+      "title": "赛博·征兆",
+      "filePath": "S04-赛博·征兆.md",
+      "upstream": ["S03"],
+      "outgoing": [
+        { "type": "jump", "label": "突围警报响起", "target": "S05" }
+      ],
+      "isEnding": false,
+      "endingId": null,
+      "status": "pending",
+      "wordCount": null,
+      "wordCountPass": null,
+      "branchValid": null,
+      "retryCount": 0
+    },
+    {
+      "sceneId": "S05",
+      "title": "赛博·守护",
+      "filePath": "S05-赛博·守护.md",
+      "upstream": ["S04"],
+      "outgoing": [
+        { "type": "choice", "label": "A) 把现实的钻戒留在驾驶舱", "target": "S06a" },
+        { "type": "choice", "label": "B) 把钻戒带回粒子海里", "target": "S06b" }
+      ],
+      "isEnding": false,
+      "endingId": null,
+      "status": "pending",
+      "wordCount": null,
+      "wordCountPass": null,
+      "branchValid": null,
+      "retryCount": 0
+    },
+    {
+      "sceneId": "S06a",
+      "title": "赛博·钻戒之光",
+      "filePath": "S06a-赛博·钻戒之光.md",
+      "upstream": ["S05"],
+      "outgoing": [
+        { "type": "jump", "label": "现实里第二根蜡烛被吹灭", "target": "S07" }
+      ],
+      "isEnding": false,
+      "endingId": null,
+      "status": "pending",
+      "wordCount": null,
+      "wordCountPass": null,
+      "branchValid": null,
+      "retryCount": 0
+    },
+    {
+      "sceneId": "S06b",
+      "title": "赛博·虚无之相",
+      "filePath": "S06b-赛博·虚无之相.md",
+      "upstream": ["S05"],
+      "outgoing": [
+        { "type": "jump", "label": "现实里第二根蜡烛被吹灭", "target": "S07" }
+      ],
+      "isEnding": false,
+      "endingId": null,
+      "status": "pending",
+      "wordCount": null,
+      "wordCountPass": null,
+      "branchValid": null,
+      "retryCount": 0
+    },
+    {
+      "sceneId": "S07",
+      "title": "民国·月光餐厅",
+      "filePath": "S07-民国·月光餐厅.md",
+      "upstream": ["S06a", "S06b"],
+      "outgoing": [
+        { "type": "jump", "label": "公馆深夜，秘信被发现", "target": "S08" }
+      ],
+      "isEnding": false,
+      "endingId": null,
+      "status": "pending",
+      "wordCount": null,
+      "wordCountPass": null,
+      "branchValid": null,
+      "retryCount": 0
+    },
+    {
+      "sceneId": "S08",
+      "title": "民国·暴雨裂痕",
+      "filePath": "S08-民国·暴雨裂痕.md",
+      "upstream": ["S07"],
+      "outgoing": [
+        { "type": "jump", "label": "邮轮晚宴的请柬送达", "target": "S09" }
+      ],
+      "isEnding": false,
+      "endingId": null,
+      "status": "pending",
+      "wordCount": null,
+      "wordCountPass": null,
+      "branchValid": null,
+      "retryCount": 0
+    },
+    {
+      "sceneId": "S09",
+      "title": "民国·邮轮夜话",
+      "filePath": "S09-民国·邮轮夜话.md",
+      "upstream": ["S08"],
+      "outgoing": [
+        { "type": "jump", "label": "对谈结束，访客留下金珠子离开；权贵从主桌走出", "target": "S10" }
+      ],
+      "isEnding": false,
+      "endingId": null,
+      "status": "pending",
+      "wordCount": null,
+      "wordCountPass": null,
+      "branchValid": null,
+      "retryCount": 0
+    },
+    {
+      "sceneId": "S10",
+      "title": "民国·抉择",
+      "filePath": "S10-民国·抉择.md",
+      "upstream": ["S09"],
+      "outgoing": [
+        { "type": "choice", "label": "A) 宣战式带她走，唱起《蓝点》", "target": "S11a" },
+        { "type": "choice", "label": "B) 温柔放她登船，《蓝点》作告别", "target": "S11b" }
+      ],
+      "isEnding": false,
+      "endingId": null,
+      "status": "pending",
+      "wordCount": null,
+      "wordCountPass": null,
+      "branchValid": null,
+      "retryCount": 0
+    },
+    {
+      "sceneId": "S11a",
+      "title": "民国·婚礼凋零",
+      "filePath": "S11a-民国·婚礼凋零.md",
+      "upstream": ["S10"],
+      "outgoing": [
+        { "type": "jump", "label": "现实里第三根蜡烛颤动", "target": "S12" }
+      ],
+      "isEnding": false,
+      "endingId": null,
+      "status": "pending",
+      "wordCount": null,
+      "wordCountPass": null,
+      "branchValid": null,
+      "retryCount": 0
+    },
+    {
+      "sceneId": "S11b",
+      "title": "民国·邮轮孤帆",
+      "filePath": "S11b-民国·邮轮孤帆.md",
+      "upstream": ["S10"],
+      "outgoing": [
+        { "type": "jump", "label": "现实里第三根蜡烛颤动", "target": "S12" }
+      ],
+      "isEnding": false,
+      "endingId": null,
+      "status": "pending",
+      "wordCount": null,
+      "wordCountPass": null,
+      "branchValid": null,
+      "retryCount": 0
+    },
+    {
+      "sceneId": "S12",
+      "title": "终章·吹灭第三根蜡烛",
+      "filePath": "S12-终章·吹灭第三根蜡烛.md",
+      "upstream": ["S11a", "S11b"],
+      "outgoing": [],
+      "isEnding": true,
+      "endingId": "E01",
+      "endingType": "TE",
+      "status": "pending",
+      "wordCount": null,
+      "wordCountPass": null,
+      "branchValid": null,
+      "retryCount": 0
+    }
+  ],
+  "endings": [
+    { "id": "E01", "name": "想见你", "type": "TE" }
+  ]
+}

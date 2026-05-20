@@ -1,0 +1,56 @@
+.root {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 28px;
+  gap: 16px;
+  background: rgba(4, 2, 8, 0.92);
+  color: rgba(255, 240, 220, 0.95);
+  font-family: var(--font-serif);
+  text-align: center;
+}
+
+.heading {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  color: rgba(255, 215, 165, 0.9);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 215, 165, 0.65);
+}
+
+.hint {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+  color: rgba(255, 240, 220, 0.72);
+  max-width: 280px;
+}
+
+.btn {
+  margin-top: 20px;
+  font-family: var(--font-serif);
+  font-size: 16px;
+  padding: 14px 28px;
+  background: linear-gradient(180deg, rgba(255, 215, 165, 0.28) 0%, rgba(255, 215, 165, 0.1) 100%);
+  border: 1px solid rgba(255, 215, 165, 0.45);
+  color: rgba(255, 245, 230, 0.96);
+  border-radius: 14px;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+
+.btn:active {
+  transform: scale(0.985);
+}

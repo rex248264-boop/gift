@@ -1,0 +1,75 @@
+/**
+ * NarrationBox is centered on screen. Unlike DialogueBox (which sits in the
+ * bottom slot), narration takes the visual center to draw the player's full
+ * attention before dialogue takes over the bottom slot.
+ */
+.root {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  margin-inline: auto;
+  transform: translateY(-50%);
+  width: min(700px, calc(100% - var(--space-4)));
+  aspect-ratio: 1024 / 323;
+  min-height: 120px;
+  background-image: var(--bg-narration);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  padding: 6% 12% 8% 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 5;
+  pointer-events: none;
+  filter: drop-shadow(0 12px 28px var(--state-shadow));
+}
+
+.inner {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.line {
+  margin: 0 0 2px 0;
+  font-family: var(--font-serif);
+  color: var(--ink-soft);
+  font-size: var(--fs-md);
+  line-height: 1.45;
+  letter-spacing: 0.08em;
+  font-style: italic;
+  font-weight: 400;
+  text-shadow: 0 1px 0 rgba(255, 250, 240, 0.5);
+  white-space: pre-wrap;
+}
+
+.line:last-child {
+  margin-bottom: 0;
+}
+
+/* 长旁白（>3 行）时左对齐 */
+.long .line {
+  text-align: left;
+  font-style: normal;
+}
+
+/* 赛博主题：深色背景改用亮色旁白文字 */
+:global([data-theme="cyber"]) .line {
+  color: rgba(200, 235, 255, 0.88);
+  text-shadow:
+    0 0 10px rgba(0, 180, 255, 0.35),
+    0 1px 0 rgba(0, 0, 0, 0.9);
+}
+
+/* 极窄屏让步 */
+@media (max-height: 600px) {
+  .root {
+    width: min(600px, calc(100% - var(--space-4)));
+  }
+}

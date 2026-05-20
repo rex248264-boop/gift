@@ -1,0 +1,174 @@
+.root {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(env(safe-area-inset-bottom) + var(--space-7));
+  margin-inline: auto;
+  width: min(660px, calc(100% - var(--space-4)));
+  aspect-ratio: 1024 / 425;
+  background-image: var(--bg-dialogue);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  display: block;
+  padding: 0;
+  border: none;
+  filter: drop-shadow(0 12px 28px var(--state-shadow));
+  z-index: 5;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+
+/* 名牌区域：落在左上凸起铭牌的中央，和 PNG 装饰融为一体。 */
+.namePlate {
+  position: absolute;
+  /* 默认（通用/现实）坐标 */
+  top: 8%;
+  left: 10%;
+  width: 27.5%;
+  height: 18%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* 赛博主题：标签框更靠上、偏右 */
+:global([data-theme="cyber"]) .namePlate {
+  top: 5.5%;
+  left: 10%;
+}
+
+/* 民国主题：沿用默认坐标，可单独微调 */
+:global([data-theme="minguo"]) .namePlate {
+  top: 8%;
+  left: 10%;
+}
+
+.nameStack {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  line-height: 1.1;
+  gap: 2px;
+  width: 100%;
+}
+
+.name {
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  font-weight: 500;
+  color: var(--ink-soft);
+  letter-spacing: 0.08em;
+  text-shadow: 0 1px 0 rgba(255, 250, 240, 0.72);
+  white-space: nowrap;
+}
+
+.alias {
+  font-family: 'Times New Roman', Georgia, serif;
+  font-size: 11px;
+  color: var(--ink-mute);
+  letter-spacing: 0.12em;
+  font-style: italic;
+}
+
+/* 赛博主题：深色背景需亮色文字，字体与通用保持一致 */
+:global([data-theme="cyber"]) .name {
+  font-family: var(--font-sans);
+  color: rgba(180, 240, 255, 0.95);
+  text-shadow:
+    0 0 8px rgba(0, 200, 255, 0.7),
+    0 1px 0 rgba(0, 0, 0, 0.8);
+}
+
+:global([data-theme="cyber"]) .alias {
+  font-family: var(--font-sans);
+  color: rgba(100, 210, 240, 0.8);
+}
+
+/* 正文区域：位于气泡中央，避开顶部名牌和左右金边 */
+.bodyZone {
+  position: absolute;
+  top: 22%;
+  bottom: 10%;
+  left: 9%;
+  right: 9%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.text {
+  margin: 0;
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: var(--fs-lg);
+  color: var(--ink-deep);
+  line-height: 1.65;
+  letter-spacing: 0.04em;
+  white-space: pre-wrap;
+  text-align: left;
+}
+
+/* 赛博主题正文：深色背景改用浅色字 */
+:global([data-theme="cyber"]) .text {
+  color: rgba(210, 240, 255, 0.92);
+}
+
+:global([data-theme="cyber"]) .action {
+  color: rgba(140, 210, 240, 0.75);
+}
+
+.caret {
+  display: inline-block;
+  margin-left: 2px;
+  color: var(--gold-deep);
+  animation: caretBlink 0.9s steps(2, start) infinite;
+}
+
+.action {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  color: var(--ink-mute);
+  font-style: italic;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+}
+
+/* 旁白变体（保留 fallback，正常流程走 NarrationBox） */
+.narrator {
+  /* 旁白如果走到这里就用静音版本（不显示名牌） */
+}
+
+.narrator .namePlate {
+  display: none;
+}
+
+.narrator .bodyZone {
+  top: 12%;
+  bottom: 12%;
+}
+
+.narrator .text {
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+@keyframes caretBlink {
+  to {
+    visibility: hidden;
+  }
+}
+
+/* 极窄屏 / 横屏让步 */
+@media (max-height: 600px) {
+  .root {
+    width: min(600px, calc(100% - var(--space-4)));
+  }
+}

@@ -1,0 +1,19 @@
+.veil {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(15, 10, 22, 0.96) 0%, rgba(0, 0, 0, 0.99) 100%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.text {
+  font-family: var(--font-serif);
+  font-size: clamp(14px, 4vw, 18px);
+  color: rgba(255, 215, 165, 0.75);
+  letter-spacing: 0.2em;
+  max-width: 80vw;
+  text-align: center;
+}
