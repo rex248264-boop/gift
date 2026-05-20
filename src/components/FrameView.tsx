@@ -237,6 +237,12 @@ export function FrameView({ sceneId, frame }: Props) {
     (items.length === 0 || dialogueIdx >= items.length - 1);
   const isLastFrameOfScene = scene?.frames[scene.frames.length - 1]?.id === frame.id;
   const nextTapExitsScene = nextTapExitsFrame && isLastFrameOfScene;
+  const beginSceneExitTransition = () => {
+    audio.stopBGM();
+    audio.stopVoice();
+    audio.stopSpecialVoice();
+    setSceneExitTransitionVisible(true);
+  };
 
   const onScreenTap = () => {
     if (sceneExitTransitionVisible) return;
@@ -254,7 +260,7 @@ export function FrameView({ sceneId, frame }: Props) {
           return;
         }
         if (nextTapExitsScene) {
-          setSceneExitTransitionVisible(true);
+          beginSceneExitTransition();
           return;
         }
         tapAdvance();
@@ -273,7 +279,7 @@ export function FrameView({ sceneId, frame }: Props) {
     }
 
     if (nextTapExitsScene) {
-      setSceneExitTransitionVisible(true);
+      beginSceneExitTransition();
       return;
     }
 
@@ -296,7 +302,7 @@ export function FrameView({ sceneId, frame }: Props) {
     if (wouldAdvance && videoTransitionSrc) {
       setShowVideoTransition(true);
     } else if (wouldAdvance && isLastFrameOfScene) {
-      setSceneExitTransitionVisible(true);
+      beginSceneExitTransition();
     } else if (wouldAdvance) {
       storeState.advance();
     }
