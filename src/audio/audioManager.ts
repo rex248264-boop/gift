@@ -8,9 +8,14 @@ import {
   resolveVoice,
 } from '@/engine/assetResolver';
 
-const BGM_TARGET_VOLUME = 0.02;
+const BGM_TARGET_VOLUME = 0.028;
 const VOICE_TARGET_VOLUME = 1;
 const VOICE_GAIN_MULTIPLIER = 2;
+const BGM_FADE_IN_MS = 1800;
+const BGM_FADE_OUT_MS = 1400;
+const VOICE_FADE_OUT_MS = 180;
+const SPECIAL_VOICE_FADE_IN_MS = 500;
+const SPECIAL_VOICE_FADE_OUT_MS = 700;
 
 class AudioManager {
   private bgm: Howl | null = null;
@@ -51,18 +56,19 @@ class AudioManager {
     sceneHint?: string;
     frameHint?: string;
     sceneChanged: boolean;
+    cacheBust?: number;
   }): Promise<boolean> {
-    const { sceneId, frameId, sceneHint, frameHint, sceneChanged } = params;
+    const { sceneId, frameId, sceneHint, frameHint, sceneChanged, cacheBust } = params;
     const requestToken = ++this.bgmRequestToken;
     let switched = false;
 
     if (sceneChanged) {
-      const sceneKey = sceneHint || sceneId;
+      const sceneKey = cacheKey(sceneHint || sceneId, cacheBust);
       if (!(this.bgmKey === sceneKey && this.bgm)) {
         const sceneUrl = await pickFirstExisting(resolveBGM(sceneId, sceneHint));
         if (requestToken !== this.bgmRequestToken) return false;
         if (sceneUrl) {
-          this.startBGM(sceneUrl, sceneKey);
+          this.startBGM(withCacheBust(sceneUrl, cacheBust), sceneKey);
           switched = true;
         }
       } else {
@@ -70,12 +76,12 @@ class AudioManager {
       }
     }
 
-    const frameKey = frameHint || `${sceneId}-${frameId}`;
+    const frameKey = cacheKey(frameHint || `${sceneId}-${frameId}`, cacheBust);
     if (!(this.bgmKey === frameKey && this.bgm)) {
       const frameUrl = await pickFirstExisting(resolveFrameBGM(sceneId, frameId, frameHint));
       if (requestToken !== this.bgmRequestToken) return switched;
       if (frameUrl) {
-        this.startBGM(frameUrl, frameKey);
+        this.startBGM(withCacheBust(frameUrl, cacheBust), frameKey);
         return true;
       }
     } else {
@@ -88,9 +94,9 @@ class AudioManager {
   stopBGM() {
     this.bgmRequestToken += 1;
     if (this.bgm) {
-      this.bgm.fade(this.bgm.volume(), 0, 600);
+      this.bgm.fade(this.bgm.volume(), 0, BGM_FADE_OUT_MS);
       const old = this.bgm;
-      setTimeout(() => old.unload(), 650);
+      setTimeout(() => old.unload(), BGM_FADE_OUT_MS + 80);
       this.bgm = null;
       this.bgmKey = null;
     }
@@ -129,8 +135,7 @@ class AudioManager {
       this.voiceRequestToken += 1;
     }
     if (this.currentVoice) {
-      this.currentVoice.stop();
-      this.currentVoice.unload();
+      this.fadeOutAndUnload(this.currentVoice, VOICE_FADE_OUT_MS);
       this.currentVoice = null;
     }
   }
@@ -143,11 +148,12 @@ class AudioManager {
     const url = await pickFirstExisting(resolveS11BlueDotSpecialAudio());
     if (!url || requestToken !== this.specialVoiceRequestToken) return;
     const src = cacheBust ? `${url}?v=${cacheBust}` : url;
-    const howl = new Howl({ src: [src], volume: VOICE_TARGET_VOLUME, html5: false });
+    const howl = new Howl({ src: [src], volume: 0, html5: false });
     this.specialVoice = howl;
     this.specialVoiceKey = key;
     const soundId = howl.play();
     this.applyVoiceGain(howl, soundId);
+    this.fadeIn(howl, VOICE_TARGET_VOLUME, SPECIAL_VOICE_FADE_IN_MS, soundId);
     howl.once('end', () => {
       if (this.specialVoice === howl) {
         this.specialVoice = null;
@@ -162,8 +168,7 @@ class AudioManager {
       this.specialVoiceRequestToken += 1;
     }
     if (this.specialVoice) {
-      this.specialVoice.stop();
-      this.specialVoice.unload();
+      this.fadeOutAndUnload(this.specialVoice, SPECIAL_VOICE_FADE_OUT_MS);
       this.specialVoice = null;
       this.specialVoiceKey = null;
     }
@@ -200,8 +205,8 @@ class AudioManager {
   private startBGM(url: string, key: string) {
     if (this.bgm) {
       const old = this.bgm;
-      old.fade(old.volume(), 0, 800);
-      setTimeout(() => old.unload(), 850);
+      old.fade(old.volume(), 0, BGM_FADE_OUT_MS);
+      setTimeout(() => old.unload(), BGM_FADE_OUT_MS + 80);
     }
     const howl = new Howl({
       src: [url],
@@ -212,9 +217,9 @@ class AudioManager {
         howl.once('unlock', () => {
           const retryId = howl.play();
           if (typeof retryId === 'number') {
-            howl.fade(0, BGM_TARGET_VOLUME, 1200, retryId);
+            howl.fade(0, BGM_TARGET_VOLUME, BGM_FADE_IN_MS, retryId);
           } else {
-            howl.fade(0, BGM_TARGET_VOLUME, 1200);
+            howl.fade(0, BGM_TARGET_VOLUME, BGM_FADE_IN_MS);
           }
         });
       },
@@ -225,9 +230,9 @@ class AudioManager {
     const start = () => {
       const soundId = howl.play();
       if (typeof soundId === 'number') {
-        howl.fade(0, BGM_TARGET_VOLUME, 1200, soundId);
+        howl.fade(0, BGM_TARGET_VOLUME, BGM_FADE_IN_MS, soundId);
       } else {
-        howl.fade(0, BGM_TARGET_VOLUME, 1200);
+        howl.fade(0, BGM_TARGET_VOLUME, BGM_FADE_IN_MS);
       }
     };
 
@@ -237,6 +242,34 @@ class AudioManager {
       howl.once('load', start);
     }
   }
+
+  private fadeIn(howl: Howl, targetVolume: number, duration: number, soundId: number) {
+    const start = () => howl.fade(0, targetVolume, duration, soundId);
+    if (howl.state() === 'loaded') {
+      start();
+    } else {
+      howl.once('load', start);
+    }
+    howl.once('play', start);
+  }
+
+  private fadeOutAndUnload(howl: Howl, duration: number) {
+    howl.fade(howl.volume(), 0, duration);
+    setTimeout(() => {
+      howl.stop();
+      howl.unload();
+    }, duration + 60);
+  }
 }
 
 export const audio = new AudioManager();
+
+function withCacheBust(url: string, cacheBust?: number) {
+  if (!cacheBust) return url;
+  return `${url}${url.includes('?') ? '&' : '?'}v=${cacheBust}`;
+}
+
+function cacheKey(key: string, cacheBust?: number) {
+  if (!cacheBust) return key;
+  return `${key}?v=${cacheBust}`;
+}

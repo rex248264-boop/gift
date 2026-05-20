@@ -145,7 +145,7 @@
   align-self: center;
   position: relative;
   width: min(220px, 100%);
-  min-height: 40px;
+  min-height: 60px;
   background: var(--input-submit-bg);
   border: 1px solid var(--input-submit-border);
   border-radius: 999px;

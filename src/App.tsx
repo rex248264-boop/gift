@@ -1,4 +1,6 @@
 import type { CSSProperties } from 'react';
+import { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useGame, getSceneTheme } from '@/engine';
 import { TitleScreen } from '@/pages/TitleScreen';
 import { GameScreen } from '@/pages/GameScreen';
@@ -19,6 +21,7 @@ export default function App() {
   const currentSceneId = useGame((s) => s.currentSceneId);
   const script = useGame((s) => s.script);
   const fontScale = useGame((s) => s.fontScale);
+  const [sceneEnterFadeVisible, setSceneEnterFadeVisible] = useState(false);
 
   const sceneTitle =
     phase === 'playing' && currentSceneId
@@ -26,12 +29,37 @@ export default function App() {
       : undefined;
   const theme = getSceneTheme(sceneTitle);
 
+  useEffect(() => {
+    if (phase !== 'playing' || !currentSceneId) return;
+    setSceneEnterFadeVisible(true);
+    const timer = window.setTimeout(() => setSceneEnterFadeVisible(false), 1200);
+    return () => window.clearTimeout(timer);
+  }, [phase, currentSceneId]);
+
   return (
     <div className="stage" style={stageStyle} data-theme={theme} data-font-scale={fontScale}>
       {phase === 'title' && <TitleScreen />}
       {phase === 'playing' && <GameScreen />}
       {phase === 'gameover' && <GameOverScreen />}
       {phase === 'ending' && <EndingScreen />}
+      <AnimatePresence>
+        {sceneEnterFadeVisible && (
+          <motion.div
+            key={`scene-enter-${currentSceneId}`}
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.2, ease: 'easeOut' }}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              zIndex: 90,
+              background: '#000',
+              pointerEvents: 'none',
+            }}
+          />
+        )}
+      </AnimatePresence>
       <DevPanel />
     </div>
   );

@@ -278,6 +278,20 @@ function uploadAssetPlugin() {
                 }
               }
 
+              // If a whole-scene BGM is uploaded, stale frame-level BGM files from
+              // the same scene would otherwise override it immediately on entry.
+              if (kind === 'bgm' && sceneId && sceneId !== '__title__' && !frameId) {
+                const files = await fs.promises.readdir(dir).catch(() => []);
+                const sceneFramePrefix = `${sceneId}-`;
+                for (const file of files) {
+                  const ext = path.extname(file).slice(1);
+                  if (!ALL_BGM_EXTS.includes(ext)) continue;
+                  if (!file.startsWith(sceneFramePrefix)) continue;
+                  await fs.promises.unlink(path.join(dir, file));
+                  deleted.push(file);
+                }
+              }
+
               await fs.promises.rename(tempPath, finalPath);
               settled = true;
 

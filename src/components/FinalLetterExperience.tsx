@@ -7,11 +7,13 @@ import {
   pickFirstExisting,
   resolveFinalSlideshowImage,
 } from '@/engine/assetResolver';
+import { TopBar } from './TopBar';
 import styles from './FinalLetterExperience.module.css';
 
 const ENVELOPE_SOURCE = '/assets/ui/final-letter/envelope-source.png';
 const MEMORY_ALBUM_SOURCE = '/assets/ui/final-letter/memory-album-source.png';
 const FINAL_SCENE_ID = 'S15';
+const FINAL_FRAME_ID = '15.1';
 const SLIDESHOW_INTERVAL_MS = 3000;
 const MAX_SLIDESHOW_IMAGES = 80;
 
@@ -128,7 +130,12 @@ export function FinalLetterExperience() {
 
   useEffect(() => {
     if (!audioUnlocked) return;
-    void audio.playBGM(FINAL_SCENE_ID);
+    void audio.syncBGM({
+      sceneId: FINAL_SCENE_ID,
+      frameId: FINAL_FRAME_ID,
+      sceneChanged: true,
+      cacheBust: assetNonce || undefined,
+    });
   }, [audioUnlocked, assetNonce]);
 
   useEffect(() => {
@@ -140,7 +147,7 @@ export function FinalLetterExperience() {
       }),
     ).then((found) => {
       if (cancelled) return;
-      setSlides(found.filter((url): url is string => Boolean(url)));
+      setSlides(found.filter((url): url is string => Boolean(url)).reverse());
       setSlideIndex(0);
     });
     return () => {
@@ -151,7 +158,13 @@ export function FinalLetterExperience() {
   useEffect(() => {
     if (!slideshowStarted || slides.length <= 1) return;
     const timer = window.setInterval(() => {
-      setSlideIndex((idx) => (idx + 1) % slides.length);
+      setSlideIndex((idx) => {
+        if (idx >= slides.length - 1) {
+          window.clearInterval(timer);
+          return idx;
+        }
+        return idx + 1;
+      });
     }, SLIDESHOW_INTERVAL_MS);
     return () => window.clearInterval(timer);
   }, [slides.length, slideshowStarted]);
@@ -172,6 +185,7 @@ export function FinalLetterExperience() {
         transition={{ duration: 2.4, ease: 'easeInOut' }}
       />
       <div className={styles.stars} />
+      <TopBar contextLabel="尾章·告白" />
 
       <AnimatePresence mode="wait">
         {slideshowStarted ? (
@@ -184,19 +198,21 @@ export function FinalLetterExperience() {
             transition={{ duration: 0.8, ease: 'easeInOut' }}
           >
             {slides.length > 0 ? (
-              <AnimatePresence mode="wait">
-                <motion.img
-                  key={slides[slideIndex]}
-                  className={styles.slideImage}
-                  src={slides[slideIndex]}
-                  alt=""
-                  initial={{ opacity: 0, scale: 1.035 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.985 }}
-                  transition={{ duration: 0.9, ease: 'easeInOut' }}
-                  draggable={false}
-                />
-              </AnimatePresence>
+              <div className={styles.slideshowFrame}>
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={slides[slideIndex]}
+                    className={styles.slideImage}
+                    src={slides[slideIndex]}
+                    alt=""
+                    initial={{ opacity: 0, scale: 1.035 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.985 }}
+                    transition={{ duration: 0.9, ease: 'easeInOut' }}
+                    draggable={false}
+                  />
+                </AnimatePresence>
+              </div>
             ) : (
               <div className={styles.emptySlideshow}>
                 <span>把图片放到</span>
@@ -292,10 +308,17 @@ export function FinalLetterExperience() {
               <div className={styles.pageIndicator}>
                 {page + 1} / {pageCount}
               </div>
-              <div className={styles.letterSignature}>
-                <span>一凯</span>
-                <span>2026.5.22</span>
-              </div>
+              {page === pageCount - 1 && (
+                <motion.div
+                  className={styles.letterSignature}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.42, delay: 0.18, ease: 'easeOut' }}
+                >
+                  <span>一凯</span>
+                  <span>2026.5.22</span>
+                </motion.div>
+              )}
             </article>
 
             <div className={styles.letterControls}>

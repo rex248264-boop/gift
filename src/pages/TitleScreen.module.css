@@ -49,8 +49,7 @@
 
 /* ── All foreground content sits above overlay ──────────────── */
 .titleStack,
-.buttons,
-.footer {
+.buttons {
   position: relative;
   z-index: 2;
 }
@@ -142,22 +141,6 @@
 .btnPrimary:active,
 .btnSecondary:active {
   transform: scale(0.985);
-}
-
-/* ── Footer ───────────────────────────────────────────────────── */
-.footer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  font-family: var(--font-sans);
-  font-size: 11px;
-  color: rgba(255, 240, 220, 0.4);
-  letter-spacing: 0.15em;
-}
-
-.footerHint {
-  color: rgba(255, 215, 165, 0.5);
 }
 
 /* ── Continue / chapter picker ───────────────────────────────── */

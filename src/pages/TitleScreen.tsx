@@ -21,8 +21,33 @@ export function TitleScreen() {
 
   useEffect(() => {
     if (!audioUnlocked) return;
-    void audio.playBGM(TITLE_BGM_SCENE_ID);
+    void audio.syncBGM({
+      sceneId: TITLE_BGM_SCENE_ID,
+      frameId: '__scene__',
+      sceneChanged: true,
+      cacheBust: assetRefreshNonce || undefined,
+    });
   }, [audioUnlocked, assetRefreshNonce]);
+
+  const unlockTitleAudio = () => {
+    if (audioUnlocked) {
+      void audio.syncBGM({
+        sceneId: TITLE_BGM_SCENE_ID,
+        frameId: '__scene__',
+        sceneChanged: true,
+        cacheBust: assetRefreshNonce || undefined,
+      });
+      return;
+    }
+    audio.unlock();
+    unlockAudio();
+    void audio.syncBGM({
+      sceneId: TITLE_BGM_SCENE_ID,
+      frameId: '__scene__',
+      sceneChanged: true,
+      cacheBust: assetRefreshNonce || undefined,
+    });
+  };
 
   const unlockAnd = (fn: () => void) => {
     audio.unlock();
@@ -69,7 +94,7 @@ export function TitleScreen() {
   };
 
   return (
-    <div className={styles.root}>
+    <div className={styles.root} onPointerDown={unlockTitleAudio}>
       <video
         className={styles.bgVideo}
         src="/assets/video/home.mp4"
@@ -147,11 +172,6 @@ export function TitleScreen() {
         </div>
       )}
 
-      <div className={styles.footer}>
-        <div>v0.0.1 · 画面式互动 AVG</div>
-        <div className={styles.footerHint}>iPhone · 竖屏体验</div>
-      </div>
     </div>
   );
 }
-

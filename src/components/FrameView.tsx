@@ -25,6 +25,9 @@ type Props = {
   frame: Frame;
 };
 
+const S11_BLUE_DOT_START_ACTION = '他的视线从始至终只落在你身上';
+const S11_BLUE_DOT_STOP_ACTION = '在这瞬间心跳，为你而停留';
+
 export function FrameView({ sceneId, frame }: Props) {
   const dialogueIdx = useGame((s) => s.currentDialogueIdx);
   const audioUnlocked = useGame((s) => s.audioUnlocked);
@@ -50,6 +53,7 @@ export function FrameView({ sceneId, frame }: Props) {
   const NARRATION_PAGE_SIZE = 3;
   const [narrationPage, setNarrationPage] = useState(0); // 当前页起始行索引
   const [transitionVisible, setTransitionVisible] = useState(false);
+  const [sceneExitTransitionVisible, setSceneExitTransitionVisible] = useState(false);
   const [bgOverride, setBgOverride] = useState<BgOverride | null>(null);
   const bgOverrideToggleRef = useRef(false);
 
@@ -69,6 +73,7 @@ export function FrameView({ sceneId, frame }: Props) {
 
   useEffect(() => {
     setTransitionVisible(false);
+    setSceneExitTransitionVisible(false);
     setBgOverride(null);
     bgOverrideToggleRef.current = false;
   }, [frame.id, sceneId]);
@@ -156,8 +161,9 @@ export function FrameView({ sceneId, frame }: Props) {
       sceneHint: sceneBgm,
       frameHint: frameBgm,
       sceneChanged,
+      cacheBust: assetNonce || undefined,
     });
-  }, [sceneId, frame.id, audioUnlocked, frame.description?.hints.bgm, frame.dialogue?.hints.bgm, scene?.hints.bgm]);
+  }, [sceneId, frame.id, audioUnlocked, frame.description?.hints.bgm, frame.dialogue?.hints.bgm, scene?.hints.bgm, assetNonce]);
 
   useEffect(() => {
     if (!audioUnlocked) return;
@@ -182,13 +188,16 @@ export function FrameView({ sceneId, frame }: Props) {
   const blueDotSpecialRange = useMemo(() => {
     if (sceneId !== 'S11' || frame.id !== '11.4') return null;
     const start = items.findIndex(
-      (it) => it.kind === 'line' && it.speaker === '他',
+      (it) =>
+        it.kind === 'line' &&
+        it.speaker === '他' &&
+        (it.action ?? '').includes(S11_BLUE_DOT_START_ACTION),
     );
     const end = items.findIndex(
       (it) =>
         it.kind === 'line' &&
         it.speaker === '她' &&
-        (it.action ?? '').includes('在这瞬间心跳，为你而停留'),
+        (it.action ?? '').includes(S11_BLUE_DOT_STOP_ACTION),
     );
     if (start < 0 || end < start) return null;
     return { start, end };
@@ -226,8 +235,11 @@ export function FrameView({ sceneId, frame }: Props) {
   const nextTapExitsFrame =
     !isInteractive &&
     (items.length === 0 || dialogueIdx >= items.length - 1);
+  const isLastFrameOfScene = scene?.frames[scene.frames.length - 1]?.id === frame.id;
+  const nextTapExitsScene = nextTapExitsFrame && isLastFrameOfScene;
 
   const onScreenTap = () => {
+    if (sceneExitTransitionVisible) return;
     if (!audioUnlocked) {
       audio.unlock();
       unlockAudio();
@@ -239,6 +251,10 @@ export function FrameView({ sceneId, frame }: Props) {
         // 若这一段旁白也正好是该帧最后一个 item 且帧绑定了过场视频，先播视频。
         if (nextTapExitsFrame && videoTransitionSrc && !showVideoTransition) {
           setShowVideoTransition(true);
+          return;
+        }
+        if (nextTapExitsScene) {
+          setSceneExitTransitionVisible(true);
           return;
         }
         tapAdvance();
@@ -253,6 +269,11 @@ export function FrameView({ sceneId, frame }: Props) {
     // show the video first; actual advance happens in onVideoTransitionDone.
     if (nextTapExitsFrame && videoTransitionSrc && !showVideoTransition) {
       setShowVideoTransition(true);
+      return;
+    }
+
+    if (nextTapExitsScene) {
+      setSceneExitTransitionVisible(true);
       return;
     }
 
@@ -274,6 +295,8 @@ export function FrameView({ sceneId, frame }: Props) {
     const wouldAdvance = newIdx >= items.length;
     if (wouldAdvance && videoTransitionSrc) {
       setShowVideoTransition(true);
+    } else if (wouldAdvance && isLastFrameOfScene) {
+      setSceneExitTransitionVisible(true);
     } else if (wouldAdvance) {
       storeState.advance();
     }
@@ -314,7 +337,7 @@ export function FrameView({ sceneId, frame }: Props) {
         />
       )}
 
-      {!isInteractive && <TopBar contextLabel={sceneTitle} />}
+      <TopBar contextLabel={sceneTitle} />
 
       {currentItem && currentItem.kind === 'line' && (
         <DialogueBox
@@ -335,7 +358,12 @@ export function FrameView({ sceneId, frame }: Props) {
         <TextInputBox block={currentItem} onConfirm={handleTextInputConfirm} />
       )}
 
-      <Transition visible={transitionVisible} text={frame.transition?.rawText.split('\n')[0]} />
+      <Transition
+        visible={transitionVisible || sceneExitTransitionVisible}
+        text={transitionVisible ? frame.transition?.rawText.split('\n')[0] : undefined}
+        duration={sceneExitTransitionVisible ? 2200 : undefined}
+        onDone={sceneExitTransitionVisible ? () => useGame.getState().advance() : undefined}
+      />
 
       {showVideoTransition && videoTransitionSrc && (
         <VideoTransition src={videoTransitionSrc} onDone={onVideoTransitionDone} />
