@@ -124,7 +124,7 @@ class AudioManager {
     const url = await pickFirstExisting(candidates);
     if (!url || requestToken !== this.voiceRequestToken) return;
     const src = cacheBust ? `${url}?v=${cacheBust}` : url;
-    const howl = new Howl({ src: [src], volume: VOICE_TARGET_VOLUME, html5: false });
+    const howl = new Howl({ src: [src], volume: VOICE_TARGET_VOLUME, html5: true });
     this.currentVoice = howl;
     const soundId = howl.play();
     this.applyVoiceGain(howl, soundId);
@@ -148,7 +148,7 @@ class AudioManager {
     const url = await pickFirstExisting(resolveS11BlueDotSpecialAudio());
     if (!url || requestToken !== this.specialVoiceRequestToken) return;
     const src = cacheBust ? `${url}?v=${cacheBust}` : url;
-    const howl = new Howl({ src: [src], volume: 0, html5: false });
+    const howl = new Howl({ src: [src], volume: 0, html5: true });
     this.specialVoice = howl;
     this.specialVoiceKey = key;
     const soundId = howl.play();
@@ -212,7 +212,7 @@ class AudioManager {
       src: [url],
       loop: true,
       volume: 0,
-      html5: false,
+      html5: true,
       onplayerror: () => {
         howl.once('unlock', () => {
           const retryId = howl.play();
