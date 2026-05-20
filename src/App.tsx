@@ -51,8 +51,10 @@ export default function App() {
             exit={{ opacity: 0 }}
             transition={{ duration: 1.2, ease: 'easeOut' }}
             style={{
-              position: 'absolute',
+              position: 'fixed',
               inset: 0,
+              width: '100dvw',
+              height: '100dvh',
               zIndex: 90,
               background: '#000',
               pointerEvents: 'none',
