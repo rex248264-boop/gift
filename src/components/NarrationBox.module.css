@@ -11,12 +11,13 @@
   margin-inline: auto;
   transform: translateY(-50%);
   box-sizing: border-box;
-  width: min(660px, calc(100% - 72px));
-  aspect-ratio: 1024 / 323;
+  width: min(660px, calc(100% - var(--space-4)));
+  aspect-ratio: 1420 / 529;
   min-height: 120px;
   background-image: var(--bg-narration);
   background-size: 100% 100%;
   background-repeat: no-repeat;
+  border: none;
   padding: 6% 12% 8% 10%;
   display: flex;
   flex-direction: column;
@@ -26,6 +27,14 @@
   z-index: 5;
   pointer-events: none;
   filter: drop-shadow(0 12px 28px var(--state-shadow));
+}
+
+:global([data-theme="cyber"]) .root {
+  aspect-ratio: 1420 / 462;
+}
+
+:global([data-theme="minguo"]) .root {
+  aspect-ratio: 1420 / 493;
 }
 
 .inner {
@@ -71,6 +80,6 @@
 /* 极窄屏让步 */
 @media (max-height: 600px) {
   .root {
-    width: min(580px, calc(100% - 72px));
+    width: min(600px, calc(100% - var(--space-4)));
   }
 }

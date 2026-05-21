@@ -24,6 +24,7 @@ export function ChoiceMenu({ choice }: Props) {
     choice.prompt && choice.prompt.length > 24 ? choice.prompt : undefined;
 
   const confirmLabel = customConfirm ?? DEFAULT_CONFIRM_LABEL;
+  const isWishDoneConfirm = confirmLabel === '许完了';
 
   const optionOffset = useTextOffsetStyle('choice-option');
   const confirmOffset = useTextOffsetStyle('choice-confirm');
@@ -113,7 +114,7 @@ export function ChoiceMenu({ choice }: Props) {
             <motion.button
               key="confirm"
               type="button"
-              className={styles.confirm}
+              className={`${styles.confirm} ${isWishDoneConfirm ? styles.wishDoneConfirm : ''}`}
               initial={{ opacity: 0, scale: 0.94 }}
               animate={{ opacity: 1, scale: committing ? 0.94 : 1 }}
               exit={{ opacity: 0, scale: 0.94 }}

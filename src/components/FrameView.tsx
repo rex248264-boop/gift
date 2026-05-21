@@ -25,7 +25,6 @@ type Props = {
   frame: Frame;
 };
 
-const S11_BLUE_DOT_START_ACTION = '他的视线从始至终只落在你身上';
 const S11_BLUE_DOT_STOP_ACTION = '在这瞬间心跳，为你而停留';
 
 export function FrameView({ sceneId, frame }: Props) {
@@ -187,12 +186,7 @@ export function FrameView({ sceneId, frame }: Props) {
 
   const blueDotSpecialRange = useMemo(() => {
     if (sceneId !== 'S11' || frame.id !== '11.4') return null;
-    const start = items.findIndex(
-      (it) =>
-        it.kind === 'line' &&
-        it.speaker === '他' &&
-        (it.action ?? '').includes(S11_BLUE_DOT_START_ACTION),
-    );
+    const start = items.findIndex((it) => it.kind !== 'narration');
     const end = items.findIndex(
       (it) =>
         it.kind === 'line' &&

@@ -8,9 +8,9 @@ import {
   resolveVoice,
 } from '@/engine/assetResolver';
 
-const BGM_TARGET_VOLUME = 0.016;
+const BGM_TARGET_VOLUME = 0.004;
 const VOICE_TARGET_VOLUME = 1;
-const VOICE_GAIN_MULTIPLIER = 2;
+const VOICE_GAIN_MULTIPLIER = 6;
 const BGM_FADE_IN_MS = 1800;
 const BGM_FADE_OUT_MS = 1400;
 const VOICE_FADE_OUT_MS = 180;
@@ -19,10 +19,16 @@ const SPECIAL_VOICE_FADE_OUT_MS = 700;
 
 class AudioManager {
   private bgm: Howl | null = null;
+  private bgmSource: AudioBufferSourceNode | null = null;
+  private bgmGain: GainNode | null = null;
   private bgmKey: string | null = null;
   private bgmRequestToken = 0;
   private currentVoice: Howl | null = null;
+  private currentVoiceSource: AudioBufferSourceNode | null = null;
+  private currentVoiceGain: GainNode | null = null;
   private specialVoice: Howl | null = null;
+  private specialVoiceSource: AudioBufferSourceNode | null = null;
+  private specialVoiceGain: GainNode | null = null;
   private specialVoiceKey: string | null = null;
   private unlocked = false;
   private voiceRequestToken = 0;
@@ -30,7 +36,6 @@ class AudioManager {
 
   unlock() {
     this.unlocked = true;
-    // 明确恢复 Howler 自己的 Web Audio context；比手动 new AudioContext 更稳定。
     try {
       if (Howler.ctx?.state === 'suspended') {
         void Howler.ctx.resume();
@@ -64,27 +69,29 @@ class AudioManager {
 
     if (sceneChanged) {
       const sceneKey = cacheKey(sceneHint || sceneId, cacheBust);
-      if (!(this.bgmKey === sceneKey && this.bgm)) {
+      if (!(this.bgmKey === sceneKey && this.hasActiveBGM())) {
         const sceneUrl = await pickFirstExisting(resolveBGM(sceneId, sceneHint));
         if (requestToken !== this.bgmRequestToken) return false;
         if (sceneUrl) {
-          this.startBGM(withCacheBust(sceneUrl, cacheBust), sceneKey);
+          void this.startBGM(withCacheBust(sceneUrl, cacheBust), sceneKey);
           switched = true;
         }
       } else {
+        this.setBGMVolume(BGM_TARGET_VOLUME);
         switched = true;
       }
     }
 
     const frameKey = cacheKey(frameHint || `${sceneId}-${frameId}`, cacheBust);
-    if (!(this.bgmKey === frameKey && this.bgm)) {
+    if (!(this.bgmKey === frameKey && this.hasActiveBGM())) {
       const frameUrl = await pickFirstExisting(resolveFrameBGM(sceneId, frameId, frameHint));
       if (requestToken !== this.bgmRequestToken) return switched;
       if (frameUrl) {
-        this.startBGM(withCacheBust(frameUrl, cacheBust), frameKey);
+        void this.startBGM(withCacheBust(frameUrl, cacheBust), frameKey);
         return true;
       }
     } else {
+      this.setBGMVolume(BGM_TARGET_VOLUME);
       return true;
     }
 
@@ -98,8 +105,27 @@ class AudioManager {
       const old = this.bgm;
       setTimeout(() => old.unload(), BGM_FADE_OUT_MS + 80);
       this.bgm = null;
-      this.bgmKey = null;
     }
+    if (this.bgmGain) {
+      const gain = this.bgmGain.gain;
+      const now = Howler.ctx.currentTime;
+      gain.cancelScheduledValues(now);
+      gain.setValueAtTime(gain.value, now);
+      gain.linearRampToValueAtTime(0, now + BGM_FADE_OUT_MS / 1000);
+    }
+    if (this.bgmSource) {
+      const oldSource = this.bgmSource;
+      setTimeout(() => {
+        try {
+          oldSource.stop();
+        } catch {
+          // ignore already-stopped source
+        }
+      }, BGM_FADE_OUT_MS + 80);
+      this.bgmSource = null;
+      this.bgmGain = null;
+    }
+    this.bgmKey = null;
   }
 
   playSFX(hint: string, volume = 1) {
@@ -124,10 +150,7 @@ class AudioManager {
     const url = await pickFirstExisting(candidates);
     if (!url || requestToken !== this.voiceRequestToken) return;
     const src = cacheBust ? `${url}?v=${cacheBust}` : url;
-    const howl = new Howl({ src: [src], volume: VOICE_TARGET_VOLUME, html5: true });
-    this.currentVoice = howl;
-    const soundId = howl.play();
-    this.applyVoiceGain(howl, soundId);
+    void this.playBoostedVoice(src, requestToken);
   }
 
   stopVoice(invalidatePending = true) {
@@ -138,6 +161,7 @@ class AudioManager {
       this.fadeOutAndUnload(this.currentVoice, VOICE_FADE_OUT_MS);
       this.currentVoice = null;
     }
+    this.stopVoiceBuffer();
   }
 
   async playS11BlueDotSpecialVoice(cacheBust?: number) {
@@ -148,19 +172,8 @@ class AudioManager {
     const url = await pickFirstExisting(resolveS11BlueDotSpecialAudio());
     if (!url || requestToken !== this.specialVoiceRequestToken) return;
     const src = cacheBust ? `${url}?v=${cacheBust}` : url;
-    const howl = new Howl({ src: [src], volume: 0, html5: true });
-    this.specialVoice = howl;
     this.specialVoiceKey = key;
-    const soundId = howl.play();
-    this.applyVoiceGain(howl, soundId);
-    this.fadeIn(howl, VOICE_TARGET_VOLUME, SPECIAL_VOICE_FADE_IN_MS, soundId);
-    howl.once('end', () => {
-      if (this.specialVoice === howl) {
-        this.specialVoice = null;
-        this.specialVoiceKey = null;
-      }
-      howl.unload();
-    });
+    void this.playBoostedSpecialVoice(src, requestToken, key);
   }
 
   stopSpecialVoice(invalidatePending = true) {
@@ -172,79 +185,183 @@ class AudioManager {
       this.specialVoice = null;
       this.specialVoiceKey = null;
     }
+    this.stopSpecialVoiceBuffer();
   }
 
   isUnlocked() {
     return this.unlocked;
   }
 
-  private applyVoiceGain(howl: Howl, soundId: number) {
-    const tune = () => {
-      const sound = (howl as Howl & {
-        _soundById?: (id: number) => {
-          _node?: { gain?: { gain?: { value: number; setValueAtTime?: (value: number, time: number) => void } } };
-        } | null;
-      })._soundById?.(soundId);
-      const gainNode = sound?._node?.gain?.gain;
-      if (!gainNode) return;
-      if (typeof gainNode.setValueAtTime === 'function') {
-        gainNode.setValueAtTime(VOICE_GAIN_MULTIPLIER, Howler.ctx.currentTime);
-      } else {
-        gainNode.value = VOICE_GAIN_MULTIPLIER;
+  private async playBoostedVoice(src: string, requestToken: number) {
+    try {
+      const { source, gain } = await this.startBufferAudio(src, VOICE_GAIN_MULTIPLIER);
+      if (requestToken !== this.voiceRequestToken) {
+        source.stop();
+        return;
       }
-    };
-
-    if (howl.state() === 'loaded') {
-      tune();
-    } else {
-      howl.once('load', tune);
+      this.currentVoiceSource = source;
+      this.currentVoiceGain = gain;
+      source.onended = () => {
+        if (this.currentVoiceSource === source) {
+          this.currentVoiceSource = null;
+          this.currentVoiceGain = null;
+        }
+      };
+    } catch {
+      if (requestToken !== this.voiceRequestToken) return;
+      const howl = new Howl({ src: [src], volume: VOICE_TARGET_VOLUME, html5: true });
+      this.currentVoice = howl;
+      howl.play();
     }
-    howl.once('play', tune);
   }
 
-  private startBGM(url: string, key: string) {
-    if (this.bgm) {
-      const old = this.bgm;
-      old.fade(old.volume(), 0, BGM_FADE_OUT_MS);
-      setTimeout(() => old.unload(), BGM_FADE_OUT_MS + 80);
+  private async playBoostedSpecialVoice(src: string, requestToken: number, key: string) {
+    try {
+      const { source, gain } = await this.startBufferAudio(src, VOICE_GAIN_MULTIPLIER, SPECIAL_VOICE_FADE_IN_MS);
+      if (requestToken !== this.specialVoiceRequestToken || this.specialVoiceKey !== key) {
+        source.stop();
+        return;
+      }
+      this.specialVoiceSource = source;
+      this.specialVoiceGain = gain;
+      source.onended = () => {
+        if (this.specialVoiceSource === source) {
+          this.specialVoiceSource = null;
+          this.specialVoiceGain = null;
+          this.specialVoiceKey = null;
+        }
+      };
+    } catch {
+      if (requestToken !== this.specialVoiceRequestToken || this.specialVoiceKey !== key) return;
+      const howl = new Howl({ src: [src], volume: 0, html5: true });
+      this.specialVoice = howl;
+      const soundId = howl.play();
+      this.fadeIn(howl, VOICE_TARGET_VOLUME, SPECIAL_VOICE_FADE_IN_MS, soundId);
+      howl.once('end', () => {
+        if (this.specialVoice === howl) {
+          this.specialVoice = null;
+          this.specialVoiceKey = null;
+        }
+        howl.unload();
+      });
     }
+  }
+
+  private async startBufferAudio(src: string, targetGain: number, fadeInMs = 0) {
+    if (Howler.ctx.state === 'suspended') {
+      await Howler.ctx.resume();
+    }
+    const buffer = await fetch(src).then((r) => r.arrayBuffer()).then((data) => Howler.ctx.decodeAudioData(data));
+    const source = Howler.ctx.createBufferSource();
+    const gain = Howler.ctx.createGain();
+    source.buffer = buffer;
+    gain.gain.setValueAtTime(fadeInMs > 0 ? 0 : targetGain, Howler.ctx.currentTime);
+    if (fadeInMs > 0) {
+      gain.gain.linearRampToValueAtTime(targetGain, Howler.ctx.currentTime + fadeInMs / 1000);
+    }
+    source.connect(gain);
+    gain.connect(Howler.ctx.destination);
+    source.start();
+    return { source, gain };
+  }
+
+  private stopVoiceBuffer() {
+    if (this.currentVoiceGain) {
+      this.currentVoiceGain.gain.setValueAtTime(0, Howler.ctx.currentTime);
+    }
+    if (this.currentVoiceSource) {
+      try {
+        this.currentVoiceSource.stop();
+      } catch {
+        // ignore already-stopped source
+      }
+      this.currentVoiceSource = null;
+      this.currentVoiceGain = null;
+    }
+  }
+
+  private stopSpecialVoiceBuffer() {
+    if (this.specialVoiceGain) {
+      this.specialVoiceGain.gain.setValueAtTime(0, Howler.ctx.currentTime);
+    }
+    if (this.specialVoiceSource) {
+      try {
+        this.specialVoiceSource.stop();
+      } catch {
+        // ignore already-stopped source
+      }
+      this.specialVoiceSource = null;
+      this.specialVoiceGain = null;
+    }
+  }
+
+  private async startBGM(url: string, key: string) {
+    this.stopBGM();
+    this.bgmKey = key;
+    try {
+      if (Howler.ctx.state === 'suspended') {
+        await Howler.ctx.resume();
+      }
+      const buffer = await fetch(url).then((r) => r.arrayBuffer()).then((data) => Howler.ctx.decodeAudioData(data));
+      if (this.bgmKey !== key) return;
+      const source = Howler.ctx.createBufferSource();
+      const gain = Howler.ctx.createGain();
+      source.buffer = buffer;
+      source.loop = true;
+      gain.gain.setValueAtTime(0, Howler.ctx.currentTime);
+      gain.gain.linearRampToValueAtTime(BGM_TARGET_VOLUME, Howler.ctx.currentTime + BGM_FADE_IN_MS / 1000);
+      source.connect(gain);
+      gain.connect(Howler.ctx.destination);
+      source.start();
+      this.bgmSource = source;
+      this.bgmGain = gain;
+      source.onended = () => {
+        if (this.bgmSource === source) {
+          this.bgmSource = null;
+          this.bgmGain = null;
+        }
+      };
+    } catch {
+      this.startBGMFallback(url, key);
+    }
+  }
+
+  private startBGMFallback(url: string, key: string) {
     const howl = new Howl({
       src: [url],
       loop: true,
       volume: 0,
       html5: true,
-      onplayerror: () => {
-        howl.once('unlock', () => {
-          const retryId = howl.play();
-          if (typeof retryId === 'number') {
-            howl.fade(0, BGM_TARGET_VOLUME, BGM_FADE_IN_MS, retryId);
-          } else {
-            howl.fade(0, BGM_TARGET_VOLUME, BGM_FADE_IN_MS);
-          }
-        });
-      },
     });
     this.bgm = howl;
     this.bgmKey = key;
-
-    const start = () => {
-      const soundId = howl.play();
-      if (typeof soundId === 'number') {
-        howl.fade(0, BGM_TARGET_VOLUME, BGM_FADE_IN_MS, soundId);
-      } else {
-        howl.fade(0, BGM_TARGET_VOLUME, BGM_FADE_IN_MS);
-      }
-    };
-
-    if (howl.state() === 'loaded') {
-      start();
+    const soundId = howl.play();
+    if (typeof soundId === 'number') {
+      howl.fade(0, BGM_TARGET_VOLUME, BGM_FADE_IN_MS, soundId);
     } else {
-      howl.once('load', start);
+      howl.fade(0, BGM_TARGET_VOLUME, BGM_FADE_IN_MS);
     }
   }
 
-  private fadeIn(howl: Howl, targetVolume: number, duration: number, soundId: number) {
-    const start = () => howl.fade(0, targetVolume, duration, soundId);
+  private hasActiveBGM() {
+    return Boolean(this.bgm || this.bgmSource);
+  }
+
+  private setBGMVolume(volume: number) {
+    this.bgm?.volume(volume);
+    if (this.bgmGain) {
+      this.bgmGain.gain.setValueAtTime(volume, Howler.ctx.currentTime);
+    }
+  }
+
+  private fadeIn(howl: Howl, targetVolume: number, duration: number, soundId?: number) {
+    const start = () => {
+      if (typeof soundId === 'number') {
+        howl.fade(0, targetVolume, duration, soundId);
+      } else {
+        howl.fade(0, targetVolume, duration);
+      }
+    };
     if (howl.state() === 'loaded') {
       start();
     } else {
@@ -262,14 +379,12 @@ class AudioManager {
   }
 }
 
-export const audio = new AudioManager();
-
 function withCacheBust(url: string, cacheBust?: number) {
-  if (!cacheBust) return url;
-  return `${url}${url.includes('?') ? '&' : '?'}v=${cacheBust}`;
+  return cacheBust ? `${url}?v=${cacheBust}` : url;
 }
 
 function cacheKey(key: string, cacheBust?: number) {
-  if (!cacheBust) return key;
-  return `${key}?v=${cacheBust}`;
+  return cacheBust ? `${key}?v=${cacheBust}` : key;
 }
+
+export const audio = new AudioManager();

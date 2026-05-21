@@ -246,6 +246,14 @@
   transform: scale(0.97);
 }
 
+.wishDoneConfirm {
+  height: 30px;
+  min-width: 78px;
+  padding: 0 14px 0 calc(14px + 0.1em);
+  font-size: var(--fs-xs);
+  border-radius: 9px;
+}
+
 .confirmLabel {
   position: relative;
   z-index: 1;
@@ -266,5 +274,9 @@
   }
   .confirm {
     height: 33px;
+  }
+
+  .wishDoneConfirm {
+    height: 28px;
   }
 }
