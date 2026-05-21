@@ -44,8 +44,11 @@ body {
 }
 
 /**
- * Design canvas: 1206 × 2442 px (@3x ≈ 402 × 814 logical).
- *   ratio = 1206 / 2442 ≈ 0.4938 (portrait)
+ * Design canvas defaults to an iPhone portrait stage:
+ *   1206 × 2442 px (@3x ≈ 402 × 814 logical), ratio ≈ 0.4938.
+ *
+ * Larger portrait screens switch to an iPad Pro 11-style stage ratio:
+ *   834 × 1194 logical, ratio ≈ 0.6985.
  *
  * 默认尺寸在 `App.tsx` 的 `stageStyle` 内联里，使用 100vh / 100vw 作为
  * 兜底（确保旧浏览器仍能工作，且不被 CSS HMR 删除）。
@@ -60,8 +63,15 @@ body {
  *   `100vh/100vw` 兜底，行为与之前一致
  */
 .stage {
-  width: min(100dvw, calc(100dvh * 1206 / 2442)) !important;
-  height: min(100dvh, calc(100dvw * 2442 / 1206)) !important;
+  --stage-ratio: 0.49386;
+  width: min(100dvw, calc(100dvh * var(--stage-ratio))) !important;
+  height: min(100dvh, calc(100dvw / var(--stage-ratio))) !important;
+}
+
+@media (orientation: portrait) and (min-width: 700px) and (min-height: 900px) {
+  .stage {
+    --stage-ratio: 0.69849;
+  }
 }
 
 input,

@@ -68,7 +68,7 @@
 
 .box {
   position: relative;
-  width: min(660px, 92%);
+  width: min(var(--input-max-width), 92%);
   min-height: 240px;
   padding: 28px 24px 22px;
   box-sizing: border-box;

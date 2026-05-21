@@ -107,7 +107,7 @@
 
 .option {
   position: relative;
-  width: min(760px, calc(100% - var(--space-5)));
+  width: min(var(--choice-max-width), calc(100% - var(--space-5)));
   min-height: 54px;
   background: var(--choice-option-bg);
   border: 1px solid var(--choice-option-border);

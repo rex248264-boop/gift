@@ -11,7 +11,7 @@
   margin-inline: auto;
   transform: translateY(-50%);
   box-sizing: border-box;
-  width: min(660px, calc(100% - var(--space-4)));
+  width: min(var(--narration-max-width), calc(100% - var(--dialogue-side-gap) * 2));
   aspect-ratio: 1420 / 529;
   min-height: 120px;
   background-image: var(--bg-narration);
@@ -80,6 +80,6 @@
 /* 极窄屏让步 */
 @media (max-height: 600px) {
   .root {
-    width: min(600px, calc(100% - var(--space-4)));
+    width: min(600px, calc(100% - var(--dialogue-side-gap) * 2));
   }
 }

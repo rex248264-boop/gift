@@ -61,6 +61,13 @@
   --fs-xl: 1.25rem;     /* 20px */
   --fs-2xl: 1.5rem;     /* 24px */
 
+  --dialogue-max-width: 660px;
+  --dialogue-side-gap: var(--space-4);
+  --dialogue-bottom-gap: var(--space-7);
+  --narration-max-width: 660px;
+  --choice-max-width: 760px;
+  --input-max-width: 660px;
+
   /* ============ Spacing & Shape ============ */
   --space-1: 4px;
   --space-2: 8px;
@@ -89,6 +96,25 @@
   --dur-fast: 200ms;
   --dur-base: 320ms;
   --dur-slow: 600ms;
+}
+
+@media (orientation: portrait) and (min-width: 700px) and (min-height: 900px) {
+  :root {
+    --fs-xs: 0.875rem;     /* 14px */
+    --fs-sm: 1rem;         /* 16px */
+    --fs-base: 1.125rem;   /* 18px */
+    --fs-md: 1.3125rem;    /* 21px */
+    --fs-lg: 1.625rem;     /* 26px */
+    --fs-xl: 1.875rem;     /* 30px */
+    --fs-2xl: 2.375rem;    /* 38px */
+
+    --dialogue-max-width: 760px;
+    --dialogue-side-gap: var(--space-6);
+    --dialogue-bottom-gap: var(--space-6);
+    --narration-max-width: 760px;
+    --choice-max-width: 760px;
+    --input-max-width: 720px;
+  }
 }
 
 /* ============ Theme: 赛博朋克 ============ */
