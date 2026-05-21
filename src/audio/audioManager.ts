@@ -8,7 +8,7 @@ import {
   resolveVoice,
 } from '@/engine/assetResolver';
 
-const BGM_TARGET_VOLUME = 0.06;
+const BGM_TARGET_VOLUME = 0.12;
 const VOICE_TARGET_VOLUME = 1;
 const VOICE_GAIN_MULTIPLIER = 5;
 const BGM_FADE_IN_MS = 1800;
