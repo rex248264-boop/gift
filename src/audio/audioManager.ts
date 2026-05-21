@@ -8,7 +8,7 @@ import {
   resolveVoice,
 } from '@/engine/assetResolver';
 
-const BGM_TARGET_VOLUME = 0.004;
+const BGM_TARGET_VOLUME = 0.0015;
 const VOICE_TARGET_VOLUME = 1;
 const VOICE_GAIN_MULTIPLIER = 6;
 const BGM_FADE_IN_MS = 1800;
@@ -19,7 +19,8 @@ const SPECIAL_VOICE_FADE_OUT_MS = 700;
 
 class AudioManager {
   private bgm: Howl | null = null;
-  private bgmSource: AudioBufferSourceNode | null = null;
+  private bgmAudio: HTMLAudioElement | null = null;
+  private bgmSource: MediaElementAudioSourceNode | null = null;
   private bgmGain: GainNode | null = null;
   private bgmKey: string | null = null;
   private bgmRequestToken = 0;
@@ -113,15 +114,14 @@ class AudioManager {
       gain.setValueAtTime(gain.value, now);
       gain.linearRampToValueAtTime(0, now + BGM_FADE_OUT_MS / 1000);
     }
-    if (this.bgmSource) {
-      const oldSource = this.bgmSource;
+    if (this.bgmAudio) {
+      const oldAudio = this.bgmAudio;
       setTimeout(() => {
-        try {
-          oldSource.stop();
-        } catch {
-          // ignore already-stopped source
-        }
+        oldAudio.pause();
+        oldAudio.src = '';
+        oldAudio.load();
       }, BGM_FADE_OUT_MS + 80);
+      this.bgmAudio = null;
       this.bgmSource = null;
       this.bgmGain = null;
     }
@@ -302,25 +302,23 @@ class AudioManager {
       if (Howler.ctx.state === 'suspended') {
         await Howler.ctx.resume();
       }
-      const buffer = await fetch(url).then((r) => r.arrayBuffer()).then((data) => Howler.ctx.decodeAudioData(data));
       if (this.bgmKey !== key) return;
-      const source = Howler.ctx.createBufferSource();
+      const audio = new Audio(url);
+      audio.loop = true;
+      audio.preload = 'auto';
+      audio.setAttribute('playsinline', 'true');
+      audio.muted = false;
+      audio.volume = 1;
+      const source = Howler.ctx.createMediaElementSource(audio);
       const gain = Howler.ctx.createGain();
-      source.buffer = buffer;
-      source.loop = true;
       gain.gain.setValueAtTime(0, Howler.ctx.currentTime);
       gain.gain.linearRampToValueAtTime(BGM_TARGET_VOLUME, Howler.ctx.currentTime + BGM_FADE_IN_MS / 1000);
       source.connect(gain);
       gain.connect(Howler.ctx.destination);
-      source.start();
+      await audio.play();
+      this.bgmAudio = audio;
       this.bgmSource = source;
       this.bgmGain = gain;
-      source.onended = () => {
-        if (this.bgmSource === source) {
-          this.bgmSource = null;
-          this.bgmGain = null;
-        }
-      };
     } catch {
       this.startBGMFallback(url, key);
     }
@@ -344,7 +342,7 @@ class AudioManager {
   }
 
   private hasActiveBGM() {
-    return Boolean(this.bgm || this.bgmSource);
+    return Boolean(this.bgm || this.bgmAudio);
   }
 
   private setBGMVolume(volume: number) {
