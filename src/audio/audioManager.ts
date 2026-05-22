@@ -56,6 +56,10 @@ class AudioManager {
     });
   }
 
+  playKnownBGM(url: string, key: string, cacheBust?: number) {
+    void this.startBGM(withCacheBust(url, cacheBust), cacheKey(key, cacheBust));
+  }
+
   async syncBGM(params: {
     sceneId: string;
     frameId: string;
@@ -315,11 +319,14 @@ class AudioManager {
       gain.gain.linearRampToValueAtTime(BGM_TARGET_VOLUME, Howler.ctx.currentTime + BGM_FADE_IN_MS / 1000);
       source.connect(gain);
       gain.connect(Howler.ctx.destination);
-      await audio.play();
       this.bgmAudio = audio;
       this.bgmSource = source;
       this.bgmGain = gain;
+      await audio.play();
     } catch {
+      this.bgmAudio = null;
+      this.bgmSource = null;
+      this.bgmGain = null;
       this.startBGMFallback(url, key);
     }
   }

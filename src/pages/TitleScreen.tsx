@@ -55,7 +55,17 @@ export function TitleScreen() {
     fn();
   };
 
-  const handleStart = () => unlockAnd(() => startNewGame(script.sceneOrder[0]));
+  const handleStart = () => {
+    const firstSceneId = script.sceneOrder[0] ?? 'S01';
+    unlockAnd(() => {
+      audio.playKnownBGM(
+        `/assets/audio/bgm/${firstSceneId}.mp3`,
+        firstSceneId,
+        assetRefreshNonce || undefined,
+      );
+      startNewGame(firstSceneId);
+    });
+  };
 
   const clearedChapterList = useMemo(() => {
     const order = script.sceneOrder;
@@ -109,7 +119,7 @@ export function TitleScreen() {
         <TitleLogo assetNonce={assetRefreshNonce} />
       </div>
 
-      <div className={styles.buttons}>
+      <div className={styles.buttons} onPointerDown={(e) => e.stopPropagation()}>
         <button className={styles.btnPrimary} onClick={handleStart}>
           开始游戏
         </button>
