@@ -10,7 +10,7 @@ export type OfflineAssetManifest = {
   assets: OfflineAsset[];
 };
 
-const CACHE_NAME = 'xiangjianni-offline-v1';
+const CACHE_NAME = 'xiangjianni-offline-v2';
 const MANIFEST_URL = '/offline-assets.json';
 
 export type DownloadProgress = {
@@ -89,9 +89,9 @@ export async function downloadOfflineAssets(
       currentUrl: asset.url,
     });
 
-    const response = await fetch(asset.url, { cache: 'reload' });
+    const response = await fetch(asset.url, { cache: 'no-store' });
     if (!response.ok) {
-      throw new Error(`下载失败：${asset.url}`);
+      throw new Error(`下载失败：${asset.url} (${response.status})`);
     }
     await cache.put(asset.url, response);
     completed += 1;
