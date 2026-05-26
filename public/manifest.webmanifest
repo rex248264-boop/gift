@@ -1,0 +1,19 @@
+{
+  "name": "想见你",
+  "short_name": "想见你",
+  "description": "画面式互动 AVG",
+  "start_url": "/",
+  "scope": "/",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "background_color": "#000000",
+  "theme_color": "#0b0712",
+  "icons": [
+    {
+      "src": "/assets/ui/title-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

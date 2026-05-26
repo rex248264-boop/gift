@@ -388,6 +388,60 @@ function deleteAssetPlugin() {
   };
 }
 
+function offlineAssetManifestPlugin() {
+  const writeManifest = async (root: string) => {
+    const assetsDir = path.join(root, 'public', 'assets');
+    const entries: Array<{ url: string; size: number }> = [];
+    const ignoredNames = new Set(['.DS_Store', '.placeholder', 'README.md']);
+
+    const walk = async (dir: string) => {
+      const items = await fs.promises.readdir(dir, { withFileTypes: true }).catch(() => []);
+      for (const item of items) {
+        const fullPath = path.join(dir, item.name);
+        if (item.isDirectory()) {
+          await walk(fullPath);
+          continue;
+        }
+        if (!item.isFile() || ignoredNames.has(item.name)) continue;
+        const stat = await fs.promises.stat(fullPath);
+        const relativePath = path.relative(path.join(root, 'public'), fullPath).split(path.sep).join('/');
+        entries.push({ url: `/${relativePath}`, size: stat.size });
+      }
+    };
+
+    await walk(assetsDir);
+    entries.sort((a, b) => a.url.localeCompare(b.url));
+    const payload = {
+      version: Date.now(),
+      generatedAt: new Date().toISOString(),
+      totalBytes: entries.reduce((sum, entry) => sum + entry.size, 0),
+      assets: entries,
+    };
+    await fs.promises.writeFile(
+      path.join(root, 'public', 'offline-assets.json'),
+      `${JSON.stringify(payload, null, 2)}\n`,
+      'utf8',
+    );
+  };
+
+  return {
+    name: 'offline-asset-manifest',
+    async buildStart() {
+      await writeManifest(process.cwd());
+    },
+    configureServer(server: { config: { root: string }; watcher: { add: (path: string) => void; on: (event: string, handler: (file: string) => void) => void } }) {
+      const assetsDir = path.join(server.config.root, 'public', 'assets');
+      void writeManifest(server.config.root);
+      server.watcher.add(assetsDir);
+      server.watcher.on('all', (file) => {
+        if (file.startsWith(assetsDir)) {
+          void writeManifest(server.config.root);
+        }
+      });
+    },
+  };
+}
+
 // Dev-only plugin: expose POST /dev/patch-text to overwrite text in a script file.
 // Only active during `vite dev`; not included in production builds.
 function patchTextPlugin() {
@@ -437,7 +491,14 @@ function patchTextPlugin() {
 }
 
 export default defineConfig({
-  plugins: [react(), rawMarkdownPlugin(), patchTextPlugin(), uploadAssetPlugin(), deleteAssetPlugin()],
+  plugins: [
+    react(),
+    rawMarkdownPlugin(),
+    offlineAssetManifestPlugin(),
+    patchTextPlugin(),
+    uploadAssetPlugin(),
+    deleteAssetPlugin(),
+  ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),

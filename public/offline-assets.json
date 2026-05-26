@@ -1,0 +1,1151 @@
+{
+  "version": 1779801642634,
+  "generatedAt": "2026-05-26T13:20:42.634Z",
+  "totalBytes": 432706944,
+  "assets": [
+    {
+      "url": "/assets/audio/bgm/__title__.mp3",
+      "size": 4522405
+    },
+    {
+      "url": "/assets/audio/bgm/S01.mp3",
+      "size": 4522405
+    },
+    {
+      "url": "/assets/audio/bgm/S02.mp3",
+      "size": 5930472
+    },
+    {
+      "url": "/assets/audio/bgm/S03.mp3",
+      "size": 4502350
+    },
+    {
+      "url": "/assets/audio/bgm/S04-4.1.mp3",
+      "size": 4971581
+    },
+    {
+      "url": "/assets/audio/bgm/S04-4.2.mp3",
+      "size": 4469024
+    },
+    {
+      "url": "/assets/audio/bgm/S04-4.5.mp3",
+      "size": 5415046
+    },
+    {
+      "url": "/assets/audio/bgm/S05-5.1.mp3",
+      "size": 3584412
+    },
+    {
+      "url": "/assets/audio/bgm/S05-5.2.mp3",
+      "size": 5252917
+    },
+    {
+      "url": "/assets/audio/bgm/S06A.mp3",
+      "size": 5102058
+    },
+    {
+      "url": "/assets/audio/bgm/S06B.mp3",
+      "size": 5102058
+    },
+    {
+      "url": "/assets/audio/bgm/S07.mp3",
+      "size": 4522405
+    },
+    {
+      "url": "/assets/audio/bgm/S08.mp3",
+      "size": 3705253
+    },
+    {
+      "url": "/assets/audio/bgm/S09.mp3",
+      "size": 4211354
+    },
+    {
+      "url": "/assets/audio/bgm/S11.mp3",
+      "size": 4156420
+    },
+    {
+      "url": "/assets/audio/bgm/S12.mp3",
+      "size": 3875832
+    },
+    {
+      "url": "/assets/audio/bgm/S13A.mp3",
+      "size": 3752397
+    },
+    {
+      "url": "/assets/audio/bgm/S13B.mp3",
+      "size": 4523854
+    },
+    {
+      "url": "/assets/audio/bgm/S14.mp3",
+      "size": 4522405
+    },
+    {
+      "url": "/assets/audio/bgm/S15-15.1.mp3",
+      "size": 3837751
+    },
+    {
+      "url": "/assets/audio/special/S11-11.4-blue-dot.mp3",
+      "size": 646214
+    },
+    {
+      "url": "/assets/audio/voice/he/S01-1.1-d1.mp3",
+      "size": 49787
+    },
+    {
+      "url": "/assets/audio/voice/he/S01-1.2-d1.mp3",
+      "size": 43099
+    },
+    {
+      "url": "/assets/audio/voice/he/S01-1.2-d2.mp3",
+      "size": 51459
+    },
+    {
+      "url": "/assets/audio/voice/he/S01-1.2-d3.mp3",
+      "size": 67341
+    },
+    {
+      "url": "/assets/audio/voice/he/S01-1.2-d4.mp3",
+      "size": 45189
+    },
+    {
+      "url": "/assets/audio/voice/he/S01-1.2-d5.mp3",
+      "size": 26799
+    },
+    {
+      "url": "/assets/audio/voice/he/S01-1.2-d6.mp3",
+      "size": 54802
+    },
+    {
+      "url": "/assets/audio/voice/he/S01-1.2-d7.mp3",
+      "size": 36830
+    },
+    {
+      "url": "/assets/audio/voice/he/S01-1.2-d8.mp3",
+      "size": 50205
+    },
+    {
+      "url": "/assets/audio/voice/he/S01-1.2-optA-d1.mp3",
+      "size": 58146
+    },
+    {
+      "url": "/assets/audio/voice/he/S01-1.2-optB-d1.mp3",
+      "size": 63997
+    },
+    {
+      "url": "/assets/audio/voice/he/S02-2.4-d1.mp3",
+      "size": 58564
+    },
+    {
+      "url": "/assets/audio/voice/he/S02-2.4-d2.mp3",
+      "size": 57310
+    },
+    {
+      "url": "/assets/audio/voice/he/S02-2.4-d3.mp3",
+      "size": 43099
+    },
+    {
+      "url": "/assets/audio/voice/he/S02-2.4-d4.mp3",
+      "size": 33904
+    },
+    {
+      "url": "/assets/audio/voice/he/S02-2.4-d5.mp3",
+      "size": 104957
+    },
+    {
+      "url": "/assets/audio/voice/he/S02-2.4-d6.mp3",
+      "size": 81552
+    },
+    {
+      "url": "/assets/audio/voice/he/S02-2.4-d7.mp3",
+      "size": 66923
+    },
+    {
+      "url": "/assets/audio/voice/he/S02-2.5-d1.mp3",
+      "size": 27217
+    },
+    {
+      "url": "/assets/audio/voice/he/S02-2.5-d2.mp3",
+      "size": 95762
+    },
+    {
+      "url": "/assets/audio/voice/he/S02-2.5-d3.mp3",
+      "size": 71103
+    },
+    {
+      "url": "/assets/audio/voice/he/S02-2.5-optA-d1.mp3",
+      "size": 87403
+    },
+    {
+      "url": "/assets/audio/voice/he/S02-2.5-optB-d1.mp3",
+      "size": 53966
+    },
+    {
+      "url": "/assets/audio/voice/he/S03-3.1-d1.mp3",
+      "size": 28053
+    },
+    {
+      "url": "/assets/audio/voice/he/S03-3.1-d2.mp3",
+      "size": 71939
+    },
+    {
+      "url": "/assets/audio/voice/he/S03-3.1-d3.mp3",
+      "size": 66087
+    },
+    {
+      "url": "/assets/audio/voice/he/S03-3.2-d1.mp3",
+      "size": 37248
+    },
+    {
+      "url": "/assets/audio/voice/he/S03-3.2-d2.mp3",
+      "size": 52712
+    },
+    {
+      "url": "/assets/audio/voice/he/S03-3.2-d3.mp3",
+      "size": 59818
+    },
+    {
+      "url": "/assets/audio/voice/he/S03-3.2-d5.mp3",
+      "size": 29725
+    },
+    {
+      "url": "/assets/audio/voice/he/S03-3.2-d6.mp3",
+      "size": 104957
+    },
+    {
+      "url": "/assets/audio/voice/he/S03-3.2-d7.mp3",
+      "size": 24291
+    },
+    {
+      "url": "/assets/audio/voice/he/S03-3.2-optA-d1.mp3",
+      "size": 43099
+    },
+    {
+      "url": "/assets/audio/voice/he/S03-3.2-optB-d1.mp3",
+      "size": 29307
+    },
+    {
+      "url": "/assets/audio/voice/he/S03-3.3-d1.mp3",
+      "size": 57310
+    },
+    {
+      "url": "/assets/audio/voice/he/S03-3.3-d3.mp3",
+      "size": 79044
+    },
+    {
+      "url": "/assets/audio/voice/he/S03-3.4-d1.mp3",
+      "size": 25545
+    },
+    {
+      "url": "/assets/audio/voice/he/S03-3.4-d2.mp3",
+      "size": 43935
+    },
+    {
+      "url": "/assets/audio/voice/he/S03-3.4-d3.mp3",
+      "size": 68595
+    },
+    {
+      "url": "/assets/audio/voice/he/S03-3.4-d4.mp3",
+      "size": 33904
+    },
+    {
+      "url": "/assets/audio/voice/he/S03-3.4-d5.mp3",
+      "size": 67341
+    },
+    {
+      "url": "/assets/audio/voice/he/S04-4.1-d1.mp3",
+      "size": 92001
+    },
+    {
+      "url": "/assets/audio/voice/he/S04-4.1-d2.mp3",
+      "size": 26799
+    },
+    {
+      "url": "/assets/audio/voice/he/S04-4.1-d3.mp3",
+      "size": 49787
+    },
+    {
+      "url": "/assets/audio/voice/he/S04-4.2-d1.mp3",
+      "size": 47279
+    },
+    {
+      "url": "/assets/audio/voice/he/S04-4.2-d2.mp3",
+      "size": 25545
+    },
+    {
+      "url": "/assets/audio/voice/he/S04-4.2-d3.mp3",
+      "size": 42681
+    },
+    {
+      "url": "/assets/audio/voice/he/S04-4.3-d1.mp3",
+      "size": 23037
+    },
+    {
+      "url": "/assets/audio/voice/he/S04-4.4-d1.mp3",
+      "size": 52712
+    },
+    {
+      "url": "/assets/audio/voice/he/S04-4.4-d2.mp3",
+      "size": 43935
+    },
+    {
+      "url": "/assets/audio/voice/he/S04-4.5-d1.mp3",
+      "size": 35158
+    },
+    {
+      "url": "/assets/audio/voice/he/S04-4.5-d2.mp3",
+      "size": 58564
+    },
+    {
+      "url": "/assets/audio/voice/he/S04-4.5-d3.mp3",
+      "size": 106629
+    },
+    {
+      "url": "/assets/audio/voice/he/S04-4.5-d4.mp3",
+      "size": 172249
+    },
+    {
+      "url": "/assets/audio/voice/he/S04-4.5-d5.mp3",
+      "size": 129617
+    },
+    {
+      "url": "/assets/audio/voice/he/S05-5.1-d1.mp3",
+      "size": 28889
+    },
+    {
+      "url": "/assets/audio/voice/he/S05-5.1-d3.mp3",
+      "size": 38084
+    },
+    {
+      "url": "/assets/audio/voice/he/S05-5.1-d4.mp3",
+      "size": 68595
+    },
+    {
+      "url": "/assets/audio/voice/he/S05-5.2-d1.mp3",
+      "size": 22201
+    },
+    {
+      "url": "/assets/audio/voice/he/S05-5.2-d2.mp3",
+      "size": 28053
+    },
+    {
+      "url": "/assets/audio/voice/he/S05-5.2-d3.mp3",
+      "size": 38084
+    },
+    {
+      "url": "/assets/audio/voice/he/S05-5.2-d4.mp3",
+      "size": 76118
+    },
+    {
+      "url": "/assets/audio/voice/he/S05-5.2-d5.mp3",
+      "size": 32650
+    },
+    {
+      "url": "/assets/audio/voice/he/S05-5.3-d1.mp3",
+      "size": 33068
+    },
+    {
+      "url": "/assets/audio/voice/he/S05-5.3-d2.mp3",
+      "size": 22201
+    },
+    {
+      "url": "/assets/audio/voice/he/S05-5.3-d3.mp3",
+      "size": 19694
+    },
+    {
+      "url": "/assets/audio/voice/he/S07-7.1-d1.mp3",
+      "size": 23873
+    },
+    {
+      "url": "/assets/audio/voice/he/S07-7.1-d2.mp3",
+      "size": 46443
+    },
+    {
+      "url": "/assets/audio/voice/he/S07-7.1-d3.mp3",
+      "size": 104121
+    },
+    {
+      "url": "/assets/audio/voice/he/S07-7.1-d4.mp3",
+      "size": 92836
+    },
+    {
+      "url": "/assets/audio/voice/he/S07-7.1-d5.mp3",
+      "size": 46861
+    },
+    {
+      "url": "/assets/audio/voice/he/S07-7.2-d1.mp3",
+      "size": 22201
+    },
+    {
+      "url": "/assets/audio/voice/he/S07-7.2-d2.mp3",
+      "size": 61072
+    },
+    {
+      "url": "/assets/audio/voice/he/S08-8.4-d3.mp3",
+      "size": 29725
+    },
+    {
+      "url": "/assets/audio/voice/he/S09-9.1-d1.mp3",
+      "size": 55220
+    },
+    {
+      "url": "/assets/audio/voice/he/S09-9.1-d2.mp3",
+      "size": 35158
+    },
+    {
+      "url": "/assets/audio/voice/he/S09-9.1-d3.mp3",
+      "size": 52712
+    },
+    {
+      "url": "/assets/audio/voice/he/S09-9.2-d1.mp3",
+      "size": 40592
+    },
+    {
+      "url": "/assets/audio/voice/he/S09-9.2-d2.mp3",
+      "size": 30561
+    },
+    {
+      "url": "/assets/audio/voice/he/S09-9.2-d3.mp3",
+      "size": 31396
+    },
+    {
+      "url": "/assets/audio/voice/he/S09-9.3-d2.mp3",
+      "size": 33904
+    },
+    {
+      "url": "/assets/audio/voice/he/S09-9.3-d3.mp3",
+      "size": 76954
+    },
+    {
+      "url": "/assets/audio/voice/he/S09-9.3-d4.mp3",
+      "size": 25127
+    },
+    {
+      "url": "/assets/audio/voice/he/S09-9.3-d5.mp3",
+      "size": 35576
+    },
+    {
+      "url": "/assets/audio/voice/he/S10-10.1-d1.mp3",
+      "size": 56056
+    },
+    {
+      "url": "/assets/audio/voice/he/S10-10.1-d2.mp3",
+      "size": 97016
+    },
+    {
+      "url": "/assets/audio/voice/he/S10-10.1-d3.mp3",
+      "size": 33068
+    },
+    {
+      "url": "/assets/audio/voice/he/S10-10.4-d1.mp3",
+      "size": 20530
+    },
+    {
+      "url": "/assets/audio/voice/he/S10-10.4-d2.mp3",
+      "size": 23873
+    },
+    {
+      "url": "/assets/audio/voice/he/S10-10.4-d3.mp3",
+      "size": 71103
+    },
+    {
+      "url": "/assets/audio/voice/he/S10-10.4-d4.mp3",
+      "size": 69849
+    },
+    {
+      "url": "/assets/audio/voice/he/S10-10.4-d5.mp3",
+      "size": 41427
+    },
+    {
+      "url": "/assets/audio/voice/he/S10-10.4-d6.mp3",
+      "size": 31814
+    },
+    {
+      "url": "/assets/audio/voice/he/S11-11.4-d3.mp3",
+      "size": 49787
+    },
+    {
+      "url": "/assets/audio/voice/he/S11-11.4-d4.mp3",
+      "size": 87821
+    },
+    {
+      "url": "/assets/audio/voice/he/S11-11.4-d5.mp3",
+      "size": 28889
+    },
+    {
+      "url": "/assets/audio/voice/he/S11-11.4-d6.mp3",
+      "size": 59818
+    },
+    {
+      "url": "/assets/audio/voice/he/S11-11.4-d7.mp3",
+      "size": 69431
+    },
+    {
+      "url": "/assets/audio/voice/he/S14-14.1-d1.mp3",
+      "size": 30561
+    },
+    {
+      "url": "/assets/audio/voice/he/S14-14.1-d2.mp3",
+      "size": 62325
+    },
+    {
+      "url": "/assets/audio/voice/he/S14-14.1-d3.mp3",
+      "size": 43935
+    },
+    {
+      "url": "/assets/audio/voice/he/S14-14.1-d4.mp3",
+      "size": 61072
+    },
+    {
+      "url": "/assets/audio/voice/he/S14-14.2-d1.mp3",
+      "size": 64833
+    },
+    {
+      "url": "/assets/bg/_default.mp4",
+      "size": 4284351
+    },
+    {
+      "url": "/assets/bg/S01-1.1.mp4",
+      "size": 4284351
+    },
+    {
+      "url": "/assets/bg/S01-1.2.mp4",
+      "size": 4384563
+    },
+    {
+      "url": "/assets/bg/S01-1.3.mp4",
+      "size": 4384563
+    },
+    {
+      "url": "/assets/bg/S02-2.1.png",
+      "size": 253785
+    },
+    {
+      "url": "/assets/bg/S02-2.2.png",
+      "size": 1957849
+    },
+    {
+      "url": "/assets/bg/S02-2.3.png",
+      "size": 2137975
+    },
+    {
+      "url": "/assets/bg/S02-2.4.png",
+      "size": 2247323
+    },
+    {
+      "url": "/assets/bg/S02-2.5.png",
+      "size": 2088233
+    },
+    {
+      "url": "/assets/bg/S03-3.1.png",
+      "size": 2723338
+    },
+    {
+      "url": "/assets/bg/S03-3.2.png",
+      "size": 2228553
+    },
+    {
+      "url": "/assets/bg/S03-3.3.png",
+      "size": 2234246
+    },
+    {
+      "url": "/assets/bg/S03-3.4.png",
+      "size": 2261969
+    },
+    {
+      "url": "/assets/bg/S04-4.1.png",
+      "size": 2616838
+    },
+    {
+      "url": "/assets/bg/S04-4.2.png",
+      "size": 253785
+    },
+    {
+      "url": "/assets/bg/S04-4.3.png",
+      "size": 2545594
+    },
+    {
+      "url": "/assets/bg/S04-4.4.png",
+      "size": 2435373
+    },
+    {
+      "url": "/assets/bg/S04-4.5.png",
+      "size": 253785
+    },
+    {
+      "url": "/assets/bg/S05-5.1.png",
+      "size": 253785
+    },
+    {
+      "url": "/assets/bg/S05-5.2.png",
+      "size": 2631908
+    },
+    {
+      "url": "/assets/bg/S05-5.3.png",
+      "size": 2411503
+    },
+    {
+      "url": "/assets/bg/S05-5.4.png",
+      "size": 2505280
+    },
+    {
+      "url": "/assets/bg/S05-5.5.png",
+      "size": 2107326
+    },
+    {
+      "url": "/assets/bg/S06A-6a.1.png",
+      "size": 2084527
+    },
+    {
+      "url": "/assets/bg/S06A-6a.2.png",
+      "size": 2096295
+    },
+    {
+      "url": "/assets/bg/S06B-6b.1.png",
+      "size": 2084527
+    },
+    {
+      "url": "/assets/bg/S06B-6b.2.png",
+      "size": 1821190
+    },
+    {
+      "url": "/assets/bg/S07-7.1.mp4",
+      "size": 4281470
+    },
+    {
+      "url": "/assets/bg/S07-7.2.mp4",
+      "size": 4474753
+    },
+    {
+      "url": "/assets/bg/S08-8.1.png",
+      "size": 253785
+    },
+    {
+      "url": "/assets/bg/S08-8.2.png",
+      "size": 253785
+    },
+    {
+      "url": "/assets/bg/S08-8.3.png",
+      "size": 2363207
+    },
+    {
+      "url": "/assets/bg/S08-8.4.png",
+      "size": 1833917
+    },
+    {
+      "url": "/assets/bg/S08-8.5.png",
+      "size": 1888751
+    },
+    {
+      "url": "/assets/bg/S09-9.1.png",
+      "size": 253785
+    },
+    {
+      "url": "/assets/bg/S09-9.2.png",
+      "size": 253785
+    },
+    {
+      "url": "/assets/bg/S09-9.3.png",
+      "size": 2072436
+    },
+    {
+      "url": "/assets/bg/S09-9.4.png",
+      "size": 253785
+    },
+    {
+      "url": "/assets/bg/S09-9.5.png",
+      "size": 2183590
+    },
+    {
+      "url": "/assets/bg/S10-10.1.png",
+      "size": 253785
+    },
+    {
+      "url": "/assets/bg/S10-10.2.png",
+      "size": 2180080
+    },
+    {
+      "url": "/assets/bg/S10-10.3.png",
+      "size": 2255051
+    },
+    {
+      "url": "/assets/bg/S10-10.4.png",
+      "size": 2236500
+    },
+    {
+      "url": "/assets/bg/S10-10.5.png",
+      "size": 273068
+    },
+    {
+      "url": "/assets/bg/S11-11.1.png",
+      "size": 2033847
+    },
+    {
+      "url": "/assets/bg/S11-11.2.png",
+      "size": 2125906
+    },
+    {
+      "url": "/assets/bg/S11-11.3.png",
+      "size": 2130444
+    },
+    {
+      "url": "/assets/bg/S11-11.4.png",
+      "size": 2126457
+    },
+    {
+      "url": "/assets/bg/S12-12.1.png",
+      "size": 2189208
+    },
+    {
+      "url": "/assets/bg/S12-12.2.png",
+      "size": 1969405
+    },
+    {
+      "url": "/assets/bg/S12-12.3.png",
+      "size": 1663052
+    },
+    {
+      "url": "/assets/bg/S13A-13a.1.png",
+      "size": 273068
+    },
+    {
+      "url": "/assets/bg/S13A-13a.2.png",
+      "size": 2127130
+    },
+    {
+      "url": "/assets/bg/S13A-13a.3.png",
+      "size": 2320558
+    },
+    {
+      "url": "/assets/bg/S13A-13a.4.png",
+      "size": 253785
+    },
+    {
+      "url": "/assets/bg/S13B-13b.1.png",
+      "size": 253785
+    },
+    {
+      "url": "/assets/bg/S13B-13b.2.png",
+      "size": 1984736
+    },
+    {
+      "url": "/assets/bg/S13B-13b.3.png",
+      "size": 1977944
+    },
+    {
+      "url": "/assets/bg/S13B-13b.4.png",
+      "size": 1939849
+    },
+    {
+      "url": "/assets/bg/S14-14.1.mp4",
+      "size": 4278183
+    },
+    {
+      "url": "/assets/bg/S14-14.2.png",
+      "size": 2526128
+    },
+    {
+      "url": "/assets/characters/finals/cyber-tangtang-final.png",
+      "size": 2949789
+    },
+    {
+      "url": "/assets/characters/finals/Tangtang-reality-final.png",
+      "size": 2591779
+    },
+    {
+      "url": "/assets/characters/finals/Yikai-cyber-final.png",
+      "size": 3122549
+    },
+    {
+      "url": "/assets/characters/finals/Yikai-reality-final.png",
+      "size": 2262247
+    },
+    {
+      "url": "/assets/characters/finals/民国棠棠_定稿.png",
+      "size": 2703390
+    },
+    {
+      "url": "/assets/final-slideshow/01.png",
+      "size": 2130830
+    },
+    {
+      "url": "/assets/final-slideshow/02.png",
+      "size": 2389146
+    },
+    {
+      "url": "/assets/final-slideshow/03.png",
+      "size": 2498154
+    },
+    {
+      "url": "/assets/final-slideshow/04.png",
+      "size": 2941594
+    },
+    {
+      "url": "/assets/final-slideshow/05.png",
+      "size": 4140864
+    },
+    {
+      "url": "/assets/final-slideshow/06.png",
+      "size": 4448440
+    },
+    {
+      "url": "/assets/final-slideshow/07.png",
+      "size": 4382226
+    },
+    {
+      "url": "/assets/final-slideshow/08.png",
+      "size": 3676463
+    },
+    {
+      "url": "/assets/final-slideshow/09.png",
+      "size": 4536209
+    },
+    {
+      "url": "/assets/final-slideshow/10.png",
+      "size": 4026045
+    },
+    {
+      "url": "/assets/final-slideshow/11.png",
+      "size": 4291134
+    },
+    {
+      "url": "/assets/final-slideshow/12.png",
+      "size": 4176775
+    },
+    {
+      "url": "/assets/final-slideshow/13.png",
+      "size": 4325174
+    },
+    {
+      "url": "/assets/final-slideshow/14.png",
+      "size": 4005166
+    },
+    {
+      "url": "/assets/final-slideshow/15.png",
+      "size": 2869232
+    },
+    {
+      "url": "/assets/final-slideshow/16.png",
+      "size": 2734720
+    },
+    {
+      "url": "/assets/final-slideshow/17.png",
+      "size": 2587792
+    },
+    {
+      "url": "/assets/final-slideshow/18.png",
+      "size": 2556797
+    },
+    {
+      "url": "/assets/final-slideshow/19.png",
+      "size": 2685745
+    },
+    {
+      "url": "/assets/final-slideshow/20.png",
+      "size": 2419921
+    },
+    {
+      "url": "/assets/final-slideshow/21.png",
+      "size": 2485196
+    },
+    {
+      "url": "/assets/final-slideshow/22.png",
+      "size": 2507563
+    },
+    {
+      "url": "/assets/final-slideshow/23.png",
+      "size": 2425470
+    },
+    {
+      "url": "/assets/final-slideshow/24.png",
+      "size": 2089579
+    },
+    {
+      "url": "/assets/final-slideshow/25.png",
+      "size": 2459851
+    },
+    {
+      "url": "/assets/final-slideshow/26.png",
+      "size": 2576975
+    },
+    {
+      "url": "/assets/final-slideshow/27.png",
+      "size": 2658139
+    },
+    {
+      "url": "/assets/final-slideshow/28.png",
+      "size": 2728101
+    },
+    {
+      "url": "/assets/final-slideshow/29.png",
+      "size": 2753523
+    },
+    {
+      "url": "/assets/final-slideshow/30.png",
+      "size": 2828980
+    },
+    {
+      "url": "/assets/final-slideshow/31.png",
+      "size": 2607318
+    },
+    {
+      "url": "/assets/final-slideshow/32.png",
+      "size": 2286342
+    },
+    {
+      "url": "/assets/final-slideshow/33.png",
+      "size": 2666748
+    },
+    {
+      "url": "/assets/scene-switches/S02-2.1-sw1.png",
+      "size": 2571744
+    },
+    {
+      "url": "/assets/scene-switches/S03-3.1-sw1.png",
+      "size": 2381805
+    },
+    {
+      "url": "/assets/scene-switches/S03-3.2-sw1.png",
+      "size": 1828683
+    },
+    {
+      "url": "/assets/scene-switches/S03-3.2-sw2.png",
+      "size": 1912995
+    },
+    {
+      "url": "/assets/scene-switches/S03-3.2-sw3.png",
+      "size": 1890410
+    },
+    {
+      "url": "/assets/scene-switches/S03-3.3-sw1.png",
+      "size": 2147382
+    },
+    {
+      "url": "/assets/scene-switches/S04-4.2-sw1.png",
+      "size": 2661840
+    },
+    {
+      "url": "/assets/scene-switches/S04-4.2-sw2.png",
+      "size": 2296279
+    },
+    {
+      "url": "/assets/scene-switches/S04-4.2-sw3.png",
+      "size": 2202136
+    },
+    {
+      "url": "/assets/scene-switches/S04-4.2-sw4.png",
+      "size": 2082233
+    },
+    {
+      "url": "/assets/scene-switches/S04-4.2-sw5.png",
+      "size": 2495505
+    },
+    {
+      "url": "/assets/scene-switches/S04-4.2-sw6.png",
+      "size": 2428467
+    },
+    {
+      "url": "/assets/scene-switches/S04-4.2-sw7.png",
+      "size": 2545594
+    },
+    {
+      "url": "/assets/scene-switches/S04-4.5-sw1.png",
+      "size": 2021716
+    },
+    {
+      "url": "/assets/scene-switches/S04-4.5-sw2.png",
+      "size": 2190727
+    },
+    {
+      "url": "/assets/scene-switches/S05-5.1-sw1.png",
+      "size": 2276306
+    },
+    {
+      "url": "/assets/scene-switches/S05-5.1-sw2.png",
+      "size": 2130963
+    },
+    {
+      "url": "/assets/scene-switches/S05-5.2-sw1.png",
+      "size": 2118328
+    },
+    {
+      "url": "/assets/scene-switches/S05-5.2-sw2.png",
+      "size": 2226038
+    },
+    {
+      "url": "/assets/scene-switches/S05-5.3-sw1.png",
+      "size": 2365019
+    },
+    {
+      "url": "/assets/scene-switches/S05-5.3-sw2.png",
+      "size": 2201548
+    },
+    {
+      "url": "/assets/scene-switches/S05-5.4-sw1.png",
+      "size": 2472977
+    },
+    {
+      "url": "/assets/scene-switches/S06A-6a.2-sw1.png",
+      "size": 273068
+    },
+    {
+      "url": "/assets/scene-switches/S08-8.1-sw1.png",
+      "size": 2500343
+    },
+    {
+      "url": "/assets/scene-switches/S08-8.2-sw1.png",
+      "size": 2486914
+    },
+    {
+      "url": "/assets/scene-switches/S09-9.1-sw1.png",
+      "size": 2102679
+    },
+    {
+      "url": "/assets/scene-switches/S09-9.1-sw2.png",
+      "size": 2161582
+    },
+    {
+      "url": "/assets/scene-switches/S09-9.2-sw1.png",
+      "size": 2104617
+    },
+    {
+      "url": "/assets/scene-switches/S10-10.1-sw1.png",
+      "size": 2189902
+    },
+    {
+      "url": "/assets/scene-switches/S10-10.4-sw1.png",
+      "size": 2138225
+    },
+    {
+      "url": "/assets/scene-switches/S11-11.2-sw1.png",
+      "size": 2244558
+    },
+    {
+      "url": "/assets/scene-switches/S11-11.4-sw1.png",
+      "size": 2232098
+    },
+    {
+      "url": "/assets/scene-switches/S11-11.4-sw2.png",
+      "size": 2150137
+    },
+    {
+      "url": "/assets/scene-switches/S11-11.4-sw3.png",
+      "size": 273068
+    },
+    {
+      "url": "/assets/scene-switches/S11-11.4-sw4.png",
+      "size": 2052034
+    },
+    {
+      "url": "/assets/scene-switches/S13A-13a.1-sw1.png",
+      "size": 2892826
+    },
+    {
+      "url": "/assets/scene-switches/S14-14.2-sw1.png",
+      "size": 273068
+    },
+    {
+      "url": "/assets/ui/_originals/choice-confirm.png",
+      "size": 72738
+    },
+    {
+      "url": "/assets/ui/_originals/choice-normal.png",
+      "size": 226560
+    },
+    {
+      "url": "/assets/ui/_originals/choice-selected.png",
+      "size": 246233
+    },
+    {
+      "url": "/assets/ui/_originals/dialogue-bubble.png",
+      "size": 1283546
+    },
+    {
+      "url": "/assets/ui/_originals/narration-background.png",
+      "size": 627815
+    },
+    {
+      "url": "/assets/ui/choice-confirm.png",
+      "size": 72738
+    },
+    {
+      "url": "/assets/ui/choice-normal.png",
+      "size": 226560
+    },
+    {
+      "url": "/assets/ui/choice-selected.png",
+      "size": 246233
+    },
+    {
+      "url": "/assets/ui/cyber/choice-confirm.png",
+      "size": 110279
+    },
+    {
+      "url": "/assets/ui/cyber/choice-normal.png",
+      "size": 272858
+    },
+    {
+      "url": "/assets/ui/cyber/choice-selected.png",
+      "size": 452050
+    },
+    {
+      "url": "/assets/ui/cyber/dialogue-bubble.png",
+      "size": 816107
+    },
+    {
+      "url": "/assets/ui/cyber/narration-background.png",
+      "size": 765966
+    },
+    {
+      "url": "/assets/ui/dialogue-bubble.png",
+      "size": 1283546
+    },
+    {
+      "url": "/assets/ui/final-letter/envelope-source.png",
+      "size": 2086902
+    },
+    {
+      "url": "/assets/ui/final-letter/memory-album-source.png",
+      "size": 2807786
+    },
+    {
+      "url": "/assets/ui/final-letter/memory-frame-source.png",
+      "size": 1666156
+    },
+    {
+      "url": "/assets/ui/final-letter/memory-frame.png",
+      "size": 1056157
+    },
+    {
+      "url": "/assets/ui/minguo/choice-confirm.png",
+      "size": 90893
+    },
+    {
+      "url": "/assets/ui/minguo/choice-normal.png",
+      "size": 403969
+    },
+    {
+      "url": "/assets/ui/minguo/choice-selected.png",
+      "size": 374351
+    },
+    {
+      "url": "/assets/ui/minguo/dialogue-bubble.png",
+      "size": 1263435
+    },
+    {
+      "url": "/assets/ui/minguo/narration-background.png",
+      "size": 846627
+    },
+    {
+      "url": "/assets/ui/narration-background.png",
+      "size": 611435
+    },
+    {
+      "url": "/assets/ui/title-logo.png",
+      "size": 575897
+    },
+    {
+      "url": "/assets/video/home.mp4",
+      "size": 4316387
+    }
+  ]
+}

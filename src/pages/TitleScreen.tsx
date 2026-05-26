@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useGame } from '@/engine';
 import { TITLE_BGM_SCENE_ID } from '@/engine/assetResolver';
 import { audio } from '@/audio/audioManager';
+import { OfflineDownload } from '@/components/OfflineDownload';
 import { TitleLogo } from '@/components/TitleLogo';
 import styles from './TitleScreen.module.css';
 
@@ -128,6 +129,7 @@ export function TitleScreen() {
             继续
           </button>
         )}
+        <OfflineDownload />
       </div>
 
       {showContinueMenu && (
