@@ -106,6 +106,7 @@ export function FinalLetterExperience() {
   const [page, setPage] = useState(0);
   const [albumReady, setAlbumReady] = useState(false);
   const [slideshowStarted, setSlideshowStarted] = useState(false);
+  const [slideshowPaused, setSlideshowPaused] = useState(false);
   const [slides, setSlides] = useState<string[]>([]);
   const [slideIndex, setSlideIndex] = useState(0);
   const [envelopeSrc, setEnvelopeSrc] = useState(ENVELOPE_SOURCE);
@@ -159,7 +160,8 @@ export function FinalLetterExperience() {
   }, [assetNonce]);
 
   useEffect(() => {
-    if (!slideshowStarted || slides.length <= 1) return;
+    if (!slideshowStarted || slideshowPaused || slides.length <= 1) return;
+    if (slideIndex >= slides.length - 1) return;
     const timer = window.setInterval(() => {
       setSlideIndex((idx) => {
         if (idx >= slides.length - 1) {
@@ -170,9 +172,10 @@ export function FinalLetterExperience() {
       });
     }, SLIDESHOW_INTERVAL_MS);
     return () => window.clearInterval(timer);
-  }, [slides.length, slideshowStarted]);
+  }, [slideIndex, slides.length, slideshowPaused, slideshowStarted]);
 
   const currentLines = useMemo(() => FINAL_LETTER_PAGES[page] ?? [], [page]);
+  const slideshowEnded = slides.length > 1 && slideIndex >= slides.length - 1;
   const unlockFinalAudio = () => {
     if (audioUnlocked) return;
     audio.unlock();
@@ -201,21 +204,43 @@ export function FinalLetterExperience() {
             transition={{ duration: 0.8, ease: 'easeInOut' }}
           >
             {slides.length > 0 ? (
-              <div className={styles.slideshowFrame}>
-                <AnimatePresence mode="wait">
-                  <motion.img
-                    key={slides[slideIndex]}
-                    className={styles.slideImage}
-                    src={slides[slideIndex]}
-                    alt=""
-                    initial={{ opacity: 0, scale: 1.035 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.985 }}
-                    transition={{ duration: 0.9, ease: 'easeInOut' }}
-                    draggable={false}
-                  />
-                </AnimatePresence>
-              </div>
+              <>
+                <div className={styles.slideshowFrame}>
+                  <AnimatePresence mode="wait">
+                    <motion.img
+                      key={slides[slideIndex]}
+                      className={styles.slideImage}
+                      src={slides[slideIndex]}
+                      alt=""
+                      initial={{ opacity: 0, scale: 1.035 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.985 }}
+                      transition={{ duration: 0.9, ease: 'easeInOut' }}
+                      draggable={false}
+                    />
+                  </AnimatePresence>
+                  {slides.length > 1 && (
+                    <button
+                      type="button"
+                      className={styles.slideshowToggle}
+                      onClick={() => {
+                        if (slideshowEnded) {
+                          setSlideIndex(0);
+                          setSlideshowPaused(false);
+                          return;
+                        }
+                        setSlideshowPaused((paused) => !paused);
+                      }}
+                      aria-pressed={slideshowPaused || slideshowEnded}
+                      aria-label={
+                        slideshowPaused || slideshowEnded ? '继续自动播放' : '暂停自动播放'
+                      }
+                    >
+                      <span aria-hidden="true">{slideshowPaused || slideshowEnded ? '▶' : 'Ⅱ'}</span>
+                    </button>
+                  )}
+                </div>
+              </>
             ) : (
               <div className={styles.emptySlideshow}>
                 <span>把图片放到</span>
@@ -246,6 +271,7 @@ export function FinalLetterExperience() {
               className={styles.albumButton}
               onClick={() => {
                 unlockFinalAudio();
+                setSlideshowPaused(false);
                 setSlideshowStarted(true);
               }}
               whileTap={{ scale: 0.96 }}
